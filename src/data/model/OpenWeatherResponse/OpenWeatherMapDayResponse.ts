@@ -1,10 +1,11 @@
-import { WeatherInfo } from "../WeatherInfo";
+import { WeatherInfo } from "../WeatherInfo/WeatherInfo";
+import { WeatherInfoMap } from "../WeatherInfo/response/WeatherInfoMap";
 import { OpenWeatherMapBasicResponse } from "./OpenWeatherMapBasicResponse";
 
 export class OpenWeatherMapDayResponse extends OpenWeatherMapBasicResponse {
-    hourlyWeatherInfo: Array<WeatherInfo>;
+    hourlyWeatherInfo: Array<WeatherInfoMap>;
 
-    constructor(hourlyWeatherInfo: Array<WeatherInfo>, lat: number, lon: number, timezone: string, timezoneOffset: number) {
+    constructor(hourlyWeatherInfo: Array<WeatherInfoMap>, lat: number, lon: number, timezone: string, timezoneOffset: number) {
         super(lat, lon, timezone, timezoneOffset);
         this.hourlyWeatherInfo = hourlyWeatherInfo;
     }

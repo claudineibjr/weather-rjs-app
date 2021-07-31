@@ -1,4 +1,12 @@
-import { WeatherInfoEnum } from "./Weather";
+export enum WeatherInfoEnum {
+    Thunderstorm,
+    Drizzle,
+    Rain,
+    Snow,
+    Atmosphere,
+    Clear,
+    Clouds,
+}
 
 export class WeatherInfo {
     date: Date;
