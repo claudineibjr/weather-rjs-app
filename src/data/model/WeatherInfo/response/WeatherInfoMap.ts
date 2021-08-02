@@ -19,7 +19,7 @@ export class WeatherInfoMap {
             throw new Error("weatherInfoMap == undefined");
         }
 
-        const date = new Date(weatherInfoMap.dt);
+        const date = new Date(weatherInfoMap.dt * 1000);
         
         let minTemperature: number = weatherInfoMap.temp.min;
         let maxTemperature: number = weatherInfoMap.temp.max;
