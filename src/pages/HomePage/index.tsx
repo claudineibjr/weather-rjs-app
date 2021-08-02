@@ -3,7 +3,7 @@ import { WeatherDailyInfo } from '../../components/WeatherDailyInfo';
 import { OpenWeatherMapWeekResponse } from '../../data/model/OpenWeatherResponse/OpenWeatherMapWeekResponse';
 import { WeatherInfoMap } from '../../data/model/WeatherInfo/response/WeatherInfoMap';
 import { loadWeekWeatherInfo } from '../../services/OpenWeatherMapApi';
-import './index.css';
+import './styles.css';
 
 interface IProps {
 
