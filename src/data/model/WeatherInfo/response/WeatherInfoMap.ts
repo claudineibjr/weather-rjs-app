@@ -22,7 +22,7 @@ export class WeatherInfoMap {
         const date = new Date(weatherInfoMap.dt);
         
         let minTemperature: number = weatherInfoMap.temp.min;
-        let maxTemperature: number = weatherInfoMap.temp.max;       
+        let maxTemperature: number = weatherInfoMap.temp.max;
         
         let weatherInfoEnum: WeatherInfoEnum = WeatherInfoEnum.Clear;
         let weatherInfoIcon: string = '';
