@@ -1,5 +1,8 @@
-.Main {
+.HomePageMain > .WeekWeatherInfo {
     display: flex;
+    align-content: center;
     flex-direction: row;
     justify-content: space-around;
+    margin-right: 15vh;
+    margin-left: 15vh;
 }
