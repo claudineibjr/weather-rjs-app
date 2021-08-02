@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { DailyWeatherInfo } from '../../data/model/WeatherInfo/DailyWeatherInfo';
 import { DateUtilities } from '../../utils/utils';
 import './styles.scss';
@@ -8,7 +9,8 @@ type WeatherDailyInfoProps = {
 }
 
 export const WeatherDailyInfo = ({ weatherDailyInfo }: WeatherDailyInfoProps) => (
-    <a href="#" style={{ textDecoration: 'none' }}>
+    <Link to={`/${DateUtilities.days[weatherDailyInfo.date.getDay()]}`}
+    style={{ textDecoration: 'none' }}>
       <div className="WeatherDailyInfoMain">
           <div className="DayName">
             {DateUtilities.shortDays[weatherDailyInfo.date.getDay()]}
@@ -26,5 +28,5 @@ export const WeatherDailyInfo = ({ weatherDailyInfo }: WeatherDailyInfoProps) =>
           </div>
         </div >
       </div>
-    </a>
+    </Link>
 );
