@@ -27,8 +27,11 @@ export class HomePage extends Component<IProps, IState> {
     componentDidMount = () => {
         const weekWeatherInfo = loadWeekWeatherInfo();
         if (weekWeatherInfo !== undefined) {
-            const weekWeatherInfos = weekWeatherInfo.daily.map((weatherInfoMap, _) => WeatherInfoMap.toWeatherInfo(weatherInfoMap));
-            // weekWeatherInfos.filter((weekWeatherInfo, _, __) => weekWeatherInfo.)
+            let weekWeatherInfos = weekWeatherInfo.daily.map((weatherInfoMap, _) => WeatherInfoMap.toWeatherInfo(weatherInfoMap));
+            weekWeatherInfos.sort((weatherInfoA, weatherInfoB) => weatherInfoB.date.getTime() - weatherInfoA.date.getTime());
+            if (weekWeatherInfos.length > 5) {
+                weekWeatherInfos = weekWeatherInfos.slice(0, 5);
+            }
             
             this.setState({weekWeatherInfos: weekWeatherInfos});
         }

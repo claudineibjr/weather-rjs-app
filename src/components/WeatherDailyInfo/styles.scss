@@ -1,29 +1,55 @@
+@import "../../styles/colors.scss";
+
 .WeatherDailyInfoMain {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 15px;
+}
+
+.WeatherDailyInfoMain:hover {
+    background-color: #fcfcfc;
+    border: 1px solid #eaeaea;
 }
 
 .WeatherDailyInfoMain > .DayName {
     text-align: center;
+    font-weight: 500;
+    color: $gray;
+}
+
+.WeatherDailyInfoMain:hover > .DayName {
+    font-weight: 700;
 }
 
 .WeatherDailyInfoMain > .Temperatures {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    font-weight: 500;
+}
+
+.WeatherDailyInfoMain:hover > .Temperatures {
+    font-weight: 700;
 }
 
 .WeatherDailyInfoMain .MaxTemperature {
     margin-right: 5px;
+    color: $darkerGray;
 }
 
 .WeatherDailyInfoMain .MinTemperature {
     padding-left: 5px;
+    color: $gray;
 }
 
 .WeatherDailyInfoMain > .WeatherIcon {
     align-items: center;
     height: 75px;
     width:  75px;
+}
+
+.WeatherDailyInfoMain:hover > .WeatherIcon {
+    height: 90px;
+    width:  90px;
 }

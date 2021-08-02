@@ -3,6 +3,7 @@
     align-content: center;
     flex-direction: row;
     justify-content: space-around;
-    margin-right: 15vh;
-    margin-left: 15vh;
+    margin-right: 15vw;
+    margin-left: 15vw;
+    margin-top: 2.5vh;
 }
