@@ -1,4 +1,4 @@
-import { WeatherInfo } from "../WeatherInfo/WeatherInfo";
+import { DailyWeatherInfo } from "../WeatherInfo/DailyWeatherInfo";
 import { WeatherInfoMap } from "../WeatherInfo/response/WeatherInfoMap";
 import { OpenWeatherMapBasicResponse } from "./OpenWeatherMapBasicResponse";
 

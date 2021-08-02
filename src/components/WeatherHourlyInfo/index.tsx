@@ -1,8 +1,8 @@
 import React from 'react';
-import { WeatherInfo } from '../../data/model/WeatherInfo/WeatherInfo';
+import { DailyWeatherInfo } from '../../data/model/WeatherInfo/DailyWeatherInfo';
 
 type WeatherHourlyInfoProps = {
-  weatherDailyInfo: Array<WeatherInfo>
+  weatherDailyInfo: Array<DailyWeatherInfo>
 }
 
 export const WeatherHourlyInfo = ({ weatherDailyInfo }: WeatherHourlyInfoProps) => (

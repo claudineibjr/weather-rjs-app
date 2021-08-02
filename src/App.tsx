@@ -13,7 +13,7 @@ const App: React.FC = () => {
   console.log(weekWeatherInfo?.timezone);
   console.log(weekWeatherInfo?.timezone_offset);
   console.log('weekWeatherInfo?.daily');
-  console.log(WeatherInfoMap.toWeatherInfo(weekWeatherInfo?.daily[0]));
+  console.log(WeatherInfoMap.toDailyWeatherInfo(weekWeatherInfo?.daily[0]));
 
   return (
     <div className="App">

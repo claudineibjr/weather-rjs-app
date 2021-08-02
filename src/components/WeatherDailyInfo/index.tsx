@@ -1,10 +1,10 @@
 import React from 'react';
-import { WeatherInfo } from '../../data/model/WeatherInfo/WeatherInfo';
+import { DailyWeatherInfo } from '../../data/model/WeatherInfo/DailyWeatherInfo';
 import { DateUtilities } from '../../utils/utils';
 import './styles.scss';
 
 type WeatherDailyInfoProps = {
-  weatherDailyInfo: WeatherInfo
+  weatherDailyInfo: DailyWeatherInfo
 }
 
 export const WeatherDailyInfo = ({ weatherDailyInfo }: WeatherDailyInfoProps) => (
