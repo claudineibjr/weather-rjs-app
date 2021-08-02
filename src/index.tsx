@@ -9,7 +9,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import HourlyWeatherInfo from './pages/HourlyWeatherInfo';
+import HourlyWeatherInfoPage from './pages/HourlyWeatherInfo';
 import { DateUtilities } from './utils/utils';
 
 ReactDOM.render(
@@ -21,7 +21,7 @@ ReactDOM.render(
               ...["/today", "/tomorrow", "/yesterday"],
               ...DateUtilities.days.map((day, _, __) => `/${day}`)
             ]} >
-            <HourlyWeatherInfo />
+            <HourlyWeatherInfoPage />
           </Route>
           <Route path="/">
             <HomePage />
