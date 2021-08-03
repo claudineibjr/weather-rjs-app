@@ -3,7 +3,11 @@ import { WeatherHourlyChart } from "../../components/WeatherHourlyChart";
 import { HourlyWeatherInfo } from "../../data/model/WeatherInfo/HourlyWeatherInfo";
 import { WeatherInfoMap } from "../../data/model/WeatherInfo/response/WeatherInfoMap";
 import { loadDayWeatherInfo } from "../../services/OpenWeatherMapApi";
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import './styles.scss';
+import { Link } from "react-router-dom";
 
 export default function HourlyWeatherInfoPage() {
     const [dayWeatherInfos, setDayWeatherInfos] = useState<Array<HourlyWeatherInfo> | undefined>(undefined);
@@ -23,6 +27,19 @@ export default function HourlyWeatherInfoPage() {
 
     return (
         <div className="HourlyWeatherInfoMain">
+            <AppBar position="static">
+                <Toolbar className="HourlyWeatherInfoToolbar">
+                    <Link to="/" className="DefaultAnchor">
+                        <Typography variant="h4">
+                            Weather Info
+                        </Typography>
+                    </Link>
+                    <Typography variant="h6">
+                        {new Date(Date.now()).toDateString()}
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+
             {dayWeatherInfos !== undefined ?
                 <div className="HourlyWeatherInfoChart">
                     <WeatherHourlyChart

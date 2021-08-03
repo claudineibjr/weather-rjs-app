@@ -9,8 +9,7 @@ type WeatherDailyInfoProps = {
 }
 
 export const WeatherDailyInfo = ({ weatherDailyInfo }: WeatherDailyInfoProps) => (
-    <Link to={`/${DateUtilities.days[weatherDailyInfo.date.getDay()]}`}
-    style={{ textDecoration: 'none' }}>
+    <Link to={`/${DateUtilities.days[weatherDailyInfo.date.getDay()]}`} className="DefaultAnchor">
       <div className="WeatherDailyInfoMain">
           <div className="DayName">
             {DateUtilities.shortDays[weatherDailyInfo.date.getDay()]}

@@ -1,9 +1,20 @@
+@import "../../styles/colors.scss";
+@import "../../styles/styles.scss";
+
 .HourlyWeatherInfoMain {
-    padding-top: 2.5vh;
-    padding-right: 10px;
-    padding-left: 10px;
+    height: 100vh;
+    background-color: $backgroundColor;
+}
+
+.HourlyWeatherInfoMain .HourlyWeatherInfoToolbar {
+    padding-left: $margin-left;
+    padding-right: $margin-right;
+
+    justify-content: space-between;
 }
 
 .HourlyWeatherInfoChart {
-    justify-content: center;
+    margin-left: $margin-left;
+    margin-right: $margin-right;
+    justify-items: center;
 }
