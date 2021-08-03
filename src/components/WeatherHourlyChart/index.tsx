@@ -67,10 +67,10 @@ export const WeatherHourlyChart = ({ weatherDailyInfo }: WeatherHourlyInfoProps)
         />
         <LinearGradient id="area-background-gradient" from="#f3f3f3" to="#e2e2e2" vertical />
         <LinearGradient
-          from='#ff0000'
-          to='#0000ff'
+          from='#FF8F00'
+          to='#FFE082'
           id='gradient'
-          vertical
+          vertical={false}
         />
         <Group top={0} left={0}>
           <AreaClosed<HourlyWeatherInfo>
@@ -78,8 +78,6 @@ export const WeatherHourlyChart = ({ weatherDailyInfo }: WeatherHourlyInfoProps)
             x={d => xDateValues(getDate(d)) ?? 0}
             y={d => yTemperatureValues(getTemperatureValue(d)) ?? 0}
             yScale={yTemperatureValues}
-            strokeWidth={1}
-            stroke="#000000"
             fill="url(#gradient)"
           />
 
