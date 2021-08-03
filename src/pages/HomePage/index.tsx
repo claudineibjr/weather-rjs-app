@@ -1,29 +1,14 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import { WeatherDailyInfo } from '../../components/WeatherDailyInfo';
 import { WeatherInfoMap } from '../../data/model/WeatherInfo/response/WeatherInfoMap';
 import { DailyWeatherInfo } from '../../data/model/WeatherInfo/DailyWeatherInfo';
 import { loadWeekWeatherInfo } from '../../services/OpenWeatherMapApi';
 import './styles.css';
 
-interface IProps {
+export function HomePage() {
+    const [weekWeatherInfos, setWeekWeatherInfos] = useState<Array<DailyWeatherInfo>>([]);
 
-}
-
-interface IState {
-    weekWeatherInfos: Array<DailyWeatherInfo>
-}
-
-export class HomePage extends Component<IProps, IState> {
-
-    constructor(props: IProps){
-        super(props);
-
-        this.state = {
-            weekWeatherInfos: []
-        };
-    }
-    
-    componentDidMount = () => {
+    useEffect(() => {
         const weekWeatherInfo = loadWeekWeatherInfo();
         if (weekWeatherInfo !== undefined) {
             let weekWeatherInfos = weekWeatherInfo.daily.map((weatherInfoMap, _) => WeatherInfoMap.toDailyWeatherInfo(weatherInfoMap));
@@ -31,25 +16,20 @@ export class HomePage extends Component<IProps, IState> {
             if (weekWeatherInfos.length > 5) {
                 weekWeatherInfos = weekWeatherInfos.slice(0, 5);
             }
-            
-            this.setState({weekWeatherInfos: weekWeatherInfos});
+
+            setWeekWeatherInfos(weekWeatherInfos);
         }
-    }
+    }, []);
 
-    render() {
-        const {weekWeatherInfos} = this.state;
-        
-        return (
-            <div className="HomePageMain">
-                <div className="WeekWeatherInfo">
-                    {weekWeatherInfos !== undefined &&
-                        weekWeatherInfos.map((dayWeatherInfo, _) => 
-                            <WeatherDailyInfo weatherDailyInfo={dayWeatherInfo} />
-                        )
-                    }
-                </div>
+    return (
+        <div className="HomePageMain">
+            <div className="WeekWeatherInfo">
+                {weekWeatherInfos !== undefined &&
+                    weekWeatherInfos.map((dayWeatherInfo, _) =>
+                        <WeatherDailyInfo weatherDailyInfo={dayWeatherInfo} />
+                    )
+                }
             </div>
-        );
-    }
-
+        </div>
+    );
 }
