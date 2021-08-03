@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import './styles.scss';
 import { Link } from "react-router-dom";
+import DefaultAppBar from "../../components/DefaultAppBar";
 
 export default function HourlyWeatherInfoPage() {
     const [dayWeatherInfos, setDayWeatherInfos] = useState<Array<HourlyWeatherInfo> | undefined>(undefined);
@@ -27,18 +28,7 @@ export default function HourlyWeatherInfoPage() {
 
     return (
         <div className="HourlyWeatherInfoMain">
-            <AppBar position="static">
-                <Toolbar className="HourlyWeatherInfoToolbar">
-                    <Link to="/" className="DefaultAnchor">
-                        <Typography variant="h4">
-                            Weather Info
-                        </Typography>
-                    </Link>
-                    <Typography variant="h6">
-                        {new Date(Date.now()).toDateString()}
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+            <DefaultAppBar />
 
             {dayWeatherInfos !== undefined ?
                 <div className="HourlyWeatherInfoChart">

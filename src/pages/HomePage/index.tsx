@@ -7,6 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import './styles.scss';
+import DefaultAppBar from '../../components/DefaultAppBar';
 
 export function HomePage() {
     const [weekWeatherInfos, setWeekWeatherInfos] = useState<Array<DailyWeatherInfo>>([]);
@@ -26,16 +27,7 @@ export function HomePage() {
 
     return (
         <div className="HomePageMain">
-            <AppBar position="static">
-                <Toolbar className="HomePageToolbar">
-                    <Typography variant="h4">
-                        Weather Info
-                    </Typography>
-                    <Typography variant="h6">
-                        {new Date(Date.now()).toDateString()}
-                    </Typography>                    
-                </Toolbar>
-            </AppBar>
+            <DefaultAppBar />
 
             <div className="WeekWeatherInfo">
                 {weekWeatherInfos !== undefined &&

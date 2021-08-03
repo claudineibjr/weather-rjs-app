@@ -6,13 +6,6 @@
     background-color: $backgroundColor;
 }
 
-.HourlyWeatherInfoMain .HourlyWeatherInfoToolbar {
-    padding-left: $margin-left;
-    padding-right: $margin-right;
-
-    justify-content: space-between;
-}
-
 .HourlyWeatherInfoChart {
     margin-left: $margin-left;
     margin-right: $margin-right;

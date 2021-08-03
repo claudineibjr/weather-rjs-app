@@ -16,6 +16,7 @@
     text-align: center;
     font-weight: 500;
     color: $gray;
+    font-size: x-large;
 }
 
 .WeatherDailyInfoMain:hover > .DayName {
@@ -27,6 +28,7 @@
     flex-direction: row;
     justify-content: space-around;
     font-weight: 500;
+    font-size: large;
 }
 
 .WeatherDailyInfoMain:hover > .Temperatures {
@@ -45,11 +47,11 @@
 
 .WeatherDailyInfoMain > .WeatherIcon {
     align-items: center;
-    height: 75px;
-    width:  75px;
+    height: 90px;
+    width:  90px;
 }
 
 .WeatherDailyInfoMain:hover > .WeatherIcon {
-    height: 90px;
-    width:  90px;
+    height: 100px;
+    width:  100px;
 }
