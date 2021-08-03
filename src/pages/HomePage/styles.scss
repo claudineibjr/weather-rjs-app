@@ -1,0 +1,33 @@
+@import "../../styles/colors.scss";
+
+$margin-left: 10vw;
+$margin-right: 10vw;
+
+.HomePageMain {
+    height: 100vh;
+    background-color: $backgroundColor;
+}
+
+.HomePageMain .HomePageToolbar {
+    padding-left: $margin-left;
+    padding-right: $margin-right;
+
+    justify-content: space-between;
+}
+
+.HomePageMain .WeekWeatherInfo {
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-left: $margin-left;
+    margin-right: $margin-right;
+    margin-top: 2.5vh;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    
+    background-color: white;
+    border: 1px solid rgba(0,0,0,0.25);
+    border-radius: 5px;
+    box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.25);
+}

@@ -3,7 +3,10 @@ import { WeatherDailyInfo } from '../../components/WeatherDailyInfo';
 import { WeatherInfoMap } from '../../data/model/WeatherInfo/response/WeatherInfoMap';
 import { DailyWeatherInfo } from '../../data/model/WeatherInfo/DailyWeatherInfo';
 import { loadWeekWeatherInfo } from '../../services/OpenWeatherMapApi';
-import './styles.css';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import './styles.scss';
 
 export function HomePage() {
     const [weekWeatherInfos, setWeekWeatherInfos] = useState<Array<DailyWeatherInfo>>([]);
@@ -23,6 +26,17 @@ export function HomePage() {
 
     return (
         <div className="HomePageMain">
+            <AppBar position="static">
+                <Toolbar className="HomePageToolbar">
+                    <Typography variant="h4">
+                        Weather Info
+                    </Typography>
+                    <Typography variant="h6">
+                        {new Date(Date.now()).toDateString()}
+                    </Typography>                    
+                </Toolbar>
+            </AppBar>
+
             <div className="WeekWeatherInfo">
                 {weekWeatherInfos !== undefined &&
                     weekWeatherInfos.map((dayWeatherInfo, _) =>

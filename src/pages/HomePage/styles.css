@@ -1,9 +1,0 @@
-.HomePageMain > .WeekWeatherInfo {
-    display: flex;
-    align-content: center;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-right: 15vw;
-    margin-left: 15vw;
-    margin-top: 2.5vh;
-}
