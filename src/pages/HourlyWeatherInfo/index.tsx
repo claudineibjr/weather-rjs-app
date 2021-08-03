@@ -1,14 +1,16 @@
 import { Component } from "react";
+import { WeatherHourlyChart } from "../../components/WeatherHourlyChart";
 import { HourlyWeatherInfo } from "../../data/model/WeatherInfo/HourlyWeatherInfo";
 import { WeatherInfoMap } from "../../data/model/WeatherInfo/response/WeatherInfoMap";
 import { loadDayWeatherInfo } from "../../services/OpenWeatherMapApi";
+import './styles.scss';
 
 interface IProps {
 
 }
 
 interface IState {
-    dayWeatherInfos: Array<HourlyWeatherInfo>
+    dayWeatherInfos?: Array<HourlyWeatherInfo>
 }
 
 export default class HourlyWeatherInfoPage extends Component<IProps, IState> {
@@ -16,7 +18,7 @@ export default class HourlyWeatherInfoPage extends Component<IProps, IState> {
         super(props);
 
         this.state = {
-            dayWeatherInfos: []
+            dayWeatherInfos: undefined,
         };
     }
 
@@ -35,17 +37,19 @@ export default class HourlyWeatherInfoPage extends Component<IProps, IState> {
 
     render() {
         const { dayWeatherInfos } = this.state;
+        
+        if (dayWeatherInfos !== undefined) {
+            return (
+                <div className="HourlyWeatherInfoMain">
+                    <WeatherHourlyChart weatherDailyInfo={dayWeatherInfos}/>
+                    {/* Carregado! */}
+                </div>
+            );
+        }
 
         return (
             <div className="HourlyWeatherInfoMain">
-                {
-                    dayWeatherInfos.map((x, _, __) =>
-                        <div>
-                            {x.date.toUTCString()}
-                            <br />
-                        </div>
-                    )
-                }
+                Loading...
             </div>
         );
     };
