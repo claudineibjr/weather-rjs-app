@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { WeatherDailyInfo } from '../../components/WeatherDailyInfo';
-import { OpenWeatherMapWeekResponse } from '../../data/model/OpenWeatherResponse/OpenWeatherMapWeekResponse';
 import { WeatherInfoMap } from '../../data/model/WeatherInfo/response/WeatherInfoMap';
 import { DailyWeatherInfo } from '../../data/model/WeatherInfo/DailyWeatherInfo';
 import { loadWeekWeatherInfo } from '../../services/OpenWeatherMapApi';
@@ -43,8 +42,8 @@ export class HomePage extends Component<IProps, IState> {
         return (
             <div className="HomePageMain">
                 <div className="WeekWeatherInfo">
-                    {weekWeatherInfos != undefined &&
-                        weekWeatherInfos.map((dayWeatherInfo, key) => 
+                    {weekWeatherInfos !== undefined &&
+                        weekWeatherInfos.map((dayWeatherInfo, _) => 
                             <WeatherDailyInfo weatherDailyInfo={dayWeatherInfo} />
                         )
                     }

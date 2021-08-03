@@ -17,6 +17,7 @@ export const WeatherDailyInfo = ({ weatherDailyInfo }: WeatherDailyInfoProps) =>
           </div>
         
         <img className="WeatherIcon"
+          alt="WeatherIcon"
           src={weatherDailyInfo.wheaterInfoIcon} />
 
         <div className="Temperatures">

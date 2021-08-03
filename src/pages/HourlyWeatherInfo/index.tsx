@@ -38,18 +38,15 @@ export default class HourlyWeatherInfoPage extends Component<IProps, IState> {
     render() {
         const { dayWeatherInfos } = this.state;
         
-        if (dayWeatherInfos !== undefined) {
-            return (
-                <div className="HourlyWeatherInfoMain">
-                    <WeatherHourlyChart weatherDailyInfo={dayWeatherInfos}/>
-                    {/* Carregado! */}
-                </div>
-            );
-        }
-
         return (
             <div className="HourlyWeatherInfoMain">
-                Loading...
+                {dayWeatherInfos !== undefined ?
+                    <div className="HourlyWeatherInfoChart">
+                        <WeatherHourlyChart
+                            weatherDailyInfo={dayWeatherInfos}/>
+                    </div>
+                    : 'Loading...'
+                }
             </div>
         );
     };
