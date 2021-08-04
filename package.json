@@ -12,6 +12,7 @@
     "@types/node": "^16.4.7",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
+    "@types/react-redux": "^7.1.18",
     "@vx/vx": "^0.0.199",
     "axios": "^0.21.1",
     "class-transformer": "^0.4.0",
