@@ -12,6 +12,7 @@
     "@types/node": "^16.4.7",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
+    "@types/react-redux": "^7.1.18",
     "@vx/vx": "^0.0.199",
     "axios": "^0.21.1",
     "class-transformer": "^0.4.0",
@@ -19,8 +20,10 @@
     "node-sass": "4.14.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "redux": "^4.1.1",
     "typescript": "^4.3.5",
     "web-vitals": "^1.0.1"
   },
