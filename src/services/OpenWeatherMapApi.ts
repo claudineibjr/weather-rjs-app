@@ -13,7 +13,9 @@ export async function loadWeekWeatherInfo(): Promise<OpenWeatherMapWeekResponse 
     // TODO: Map the data from JSON to OpenWeatherMapWeekResponse
     let openWeatherMapWeekResponse: OpenWeatherMapWeekResponse = plainToClass(OpenWeatherMapWeekResponse, loadWeekWeatherInfoMockedData as Object);
 
-    await sleep(1500);
+    await sleep(1000);
+
+    const OPEN_WHEATER_MAP_API_KEY = process.env.REACT_APP_OPEN_WHEATER_MAP_API_KEY;
 
     return openWeatherMapWeekResponse;
 
@@ -37,7 +39,9 @@ export async function loadDayWeatherInfo(): Promise<OpenWeatherMapDayResponse | 
     // TODO: Map the data from JSON to OpenWeatherMapDayResponse
     let openWeatherMapDayResponse: OpenWeatherMapDayResponse = plainToClass(OpenWeatherMapDayResponse, loadDayWeatherInfoMockedData as Object);
 
-    await sleep(1500);
+    await sleep(1000);
+
+    const OPEN_WHEATER_MAP_API_KEY = process.env.REACT_APP_OPEN_WHEATER_MAP_API_KEY;
 
     // TODO: Map the data from JSON to OpenWeatherMapDayResponse
     return openWeatherMapDayResponse;
