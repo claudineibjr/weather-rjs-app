@@ -6,6 +6,7 @@ import { loadWeekWeatherInfo } from '../../services/OpenWeatherMapApi';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import './styles.scss';
 import DefaultAppBar from '../../components/DefaultAppBar';
+import { LocationUtilities } from '../../utils/locationUtils';
 
 export function HomePage() {
     const [weekWeatherInfos, setWeekWeatherInfos] = useState<Array<DailyWeatherInfo>>([]);
@@ -13,8 +14,6 @@ export function HomePage() {
 
     useEffect(() => {
         async function fetchMyAPI() {
-            setLoading(true);
-
             const weekWeatherInfo = await loadWeekWeatherInfo();
             if (weekWeatherInfo !== undefined) {
                 let weekWeatherInfos = weekWeatherInfo.daily.map((weatherInfoMap, _) => WeatherInfoMap.toDailyWeatherInfo(weatherInfoMap));
@@ -25,10 +24,15 @@ export function HomePage() {
 
                 setWeekWeatherInfos(weekWeatherInfos);
             }
-            setLoading(false);
         }
 
-        fetchMyAPI();
+        setLoading(true);
+        Promise.all([
+            LocationUtilities.loadCurrentUserLocation(),
+            fetchMyAPI(),
+        ]).then(() =>
+            setLoading(false)
+        );
     }, []);
 
     return (
