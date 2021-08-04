@@ -13,7 +13,7 @@ export async function loadWeekWeatherInfo(): Promise<OpenWeatherMapWeekResponse 
     // TODO: Map the data from JSON to OpenWeatherMapWeekResponse
     let openWeatherMapWeekResponse: OpenWeatherMapWeekResponse = plainToClass(OpenWeatherMapWeekResponse, loadWeekWeatherInfoMockedData as Object);
 
-    await sleep(1000);
+    await sleep(1500);
 
     return openWeatherMapWeekResponse;
 
@@ -34,24 +34,26 @@ export async function loadWeekWeatherInfo(): Promise<OpenWeatherMapWeekResponse 
 }
 
 export async function loadDayWeatherInfo(): Promise<OpenWeatherMapDayResponse | undefined> {
-    // // TODO: Map the data from JSON to OpenWeatherMapDayResponse
-    // let openWeatherMapDayResponse: OpenWeatherMapDayResponse = plainToClass(OpenWeatherMapDayResponse, loadDayWeatherInfoMockedData as Object);
+    // TODO: Map the data from JSON to OpenWeatherMapDayResponse
+    let openWeatherMapDayResponse: OpenWeatherMapDayResponse = plainToClass(OpenWeatherMapDayResponse, loadDayWeatherInfoMockedData as Object);
 
-    // // TODO: Map the data from JSON to OpenWeatherMapDayResponse
-    // return openWeatherMapDayResponse;
+    await sleep(1500);
 
-    try {
-        const response = await axios.get(
-            'https://api.openweathermap.org/data/2.5/onecall?lat=-21.9956977&lon=-47.9515105&exclude=minutely,alerts,current,daily&appid=5bf4009a1c9ac711a96acf649074854f&units=imperial'
-        );
+    // TODO: Map the data from JSON to OpenWeatherMapDayResponse
+    return openWeatherMapDayResponse;
 
-        if (response.status === 200) {
-            let openWeatherMapWeekResponse: OpenWeatherMapDayResponse = plainToClass(OpenWeatherMapDayResponse, response.data as Object);
-            return openWeatherMapWeekResponse;
-        } else {
-            return undefined;
-        }
-    } catch (_) {
-        return undefined;
-    }    
+    // try {
+    //     const response = await axios.get(
+    //         'https://api.openweathermap.org/data/2.5/onecall?lat=-21.9956977&lon=-47.9515105&exclude=minutely,alerts,current,daily&appid=5bf4009a1c9ac711a96acf649074854f&units=imperial'
+    //     );
+
+    //     if (response.status === 200) {
+    //         let openWeatherMapWeekResponse: OpenWeatherMapDayResponse = plainToClass(OpenWeatherMapDayResponse, response.data as Object);
+    //         return openWeatherMapWeekResponse;
+    //     } else {
+    //         return undefined;
+    //     }
+    // } catch (_) {
+    //     return undefined;
+    // }
 }
