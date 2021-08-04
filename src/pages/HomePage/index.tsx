@@ -7,12 +7,26 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import './styles.scss';
 import DefaultAppBar from '../../components/DefaultAppBar';
 import { LocationUtilities } from '../../utils/locationUtils';
-import { useDispatch } from 'react-redux';
-import { RootDispatcher } from '../../store/root-redux';
+import UserLocation from '../../data/model/UserPreferences/UserLocation';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootDispatcher, StateProps } from '../../store/root-redux';
+import { StateInterface } from '../../store/root-reducer';
+import UserPreferences from '../../data/model/UserPreferences/UserPreferences';
+import { RSA_NO_PADDING } from 'node:constants';
+
+interface StateInterfaceProps {
+    userLocation: UserLocation | undefined;
+}
 
 export function HomePage() {
     const [weekWeatherInfos, setWeekWeatherInfos] = useState<Array<DailyWeatherInfo>>([]);
     const [isLoading, setLoading] = useState<boolean>(false);
+
+    const { userLocation } = useSelector<StateInterfaceProps, StateInterfaceProps>((state: StateInterfaceProps) => {
+        return {
+            userLocation: state.userLocation,
+        }
+    });
 
     const rootDispatcher = new RootDispatcher(useDispatch());
 
@@ -32,15 +46,10 @@ export function HomePage() {
 
         setLoading(true);
         Promise.all([
-            new Promise<void>(async (resolve, _) => {
-                try {
-                    const userLocation = await LocationUtilities.loadCurrentUserLocation();
-                    rootDispatcher.updateUserLocation(userLocation);
-                } catch(_) {
-                } finally {
-                    resolve();
-                }
-            }),
+            LocationUtilities.loadUserLocationIfNeeded(
+                userLocation,
+                rootDispatcher.updateUserLocation,
+            ),
             fetchMyAPI(),
         ]).then(() =>
             setLoading(false)

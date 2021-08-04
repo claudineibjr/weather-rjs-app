@@ -10,11 +10,24 @@ import DefaultAppBar from "../../components/DefaultAppBar";
 import { DateUtilities } from "../../utils/utils";
 import { LocationUtilities } from "../../utils/locationUtils";
 import UserLocation from "../../data/model/UserPreferences/UserLocation";
+import { useSelector, useDispatch } from "react-redux";
+import { RootDispatcher } from "../../store/root-redux";
+
+interface StateInterfaceProps {
+    userLocation: UserLocation | undefined;
+}
 
 export default function HourlyWeatherInfoPage() {
     const [dayWeatherInfos, setDayWeatherInfos] = useState<Array<HourlyWeatherInfo> | undefined>(undefined);
     const [isLoading, setLoading] = useState<boolean>(false);
-    const [userLocation, setUserLocation] = useState<UserLocation | undefined>(undefined);
+
+    const { userLocation } = useSelector<StateInterfaceProps, StateInterfaceProps>((state: StateInterfaceProps) => {
+        return {
+            userLocation: state.userLocation,
+        }
+    });
+
+    const rootDispatcher = new RootDispatcher(useDispatch());
 
     const { path } = useRouteMatch();
 
@@ -37,16 +50,10 @@ export default function HourlyWeatherInfoPage() {
 
         setLoading(true);
         Promise.all([
-            new Promise<void>(async (resolve, _) => {
-                try {
-                    const userLocation = await LocationUtilities.loadCurrentUserLocation();
-                    setUserLocation(userLocation);
-                } catch (_) {
-                } finally {
-                    console.log(userLocation);
-                    resolve();
-                }
-            }),
+            LocationUtilities.loadUserLocationIfNeeded(
+                userLocation,
+                rootDispatcher.updateUserLocation,
+            ),
             fetchMyAPI(),
         ]).then(() =>
             setLoading(false)

@@ -1,21 +1,23 @@
 import UserLocation from "../data/model/UserPreferences/UserLocation";
 
 export class LocationUtilities {
-    static loadCurrentUserLocation(): Promise<UserLocation> {
-        return new Promise<UserLocation>(async (resolve, reject) => {            
-            let userLocation: UserLocation;
-            
+    static loadUserLocationIfNeeded(userLocation: UserLocation | undefined, updateUserLocationFunction: (userLocation: UserLocation) => void): Promise<void> {
+        return new Promise<void>(async (resolve, _) => {
+            if (userLocation !== undefined) {
+                resolve();
+            }
+
             try {
-                userLocation = await LocationUtilities.loadCurrentUserGeolocation();
-                
-                resolve(userLocation);
-            } catch(_) {
-                reject('User location unavaiable');
+                const userLocation = await LocationUtilities.loadCurrentUserLocation();
+                updateUserLocationFunction(userLocation);
+            } catch (_) {
+            } finally {
+                resolve();
             }
         });
     }
-    
-    private static loadCurrentUserGeolocation(): Promise<UserLocation> {
+
+    static loadCurrentUserLocation(): Promise<UserLocation> {
         return new Promise<UserLocation>((resolve, reject) => {
             try {
                 if ("geolocation" in navigator) {
