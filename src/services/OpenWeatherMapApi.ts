@@ -33,10 +33,25 @@ export async function loadWeekWeatherInfo(): Promise<OpenWeatherMapWeekResponse 
     // }
 }
 
-export function loadDayWeatherInfo(): OpenWeatherMapDayResponse | undefined {
-    // TODO: Map the data from JSON to OpenWeatherMapDayResponse
-    let openWeatherMapDayResponse: OpenWeatherMapDayResponse = plainToClass(OpenWeatherMapDayResponse, loadDayWeatherInfoMockedData as Object);
+export async function loadDayWeatherInfo(): Promise<OpenWeatherMapDayResponse | undefined> {
+    // // TODO: Map the data from JSON to OpenWeatherMapDayResponse
+    // let openWeatherMapDayResponse: OpenWeatherMapDayResponse = plainToClass(OpenWeatherMapDayResponse, loadDayWeatherInfoMockedData as Object);
 
-    // TODO: Map the data from JSON to OpenWeatherMapDayResponse
-    return openWeatherMapDayResponse;
+    // // TODO: Map the data from JSON to OpenWeatherMapDayResponse
+    // return openWeatherMapDayResponse;
+
+    try {
+        const response = await axios.get(
+            'https://api.openweathermap.org/data/2.5/onecall?lat=-21.9956977&lon=-47.9515105&exclude=minutely,alerts,current,daily&appid=5bf4009a1c9ac711a96acf649074854f&units=imperial'
+        );
+
+        if (response.status === 200) {
+            let openWeatherMapWeekResponse: OpenWeatherMapDayResponse = plainToClass(OpenWeatherMapDayResponse, response.data as Object);
+            return openWeatherMapWeekResponse;
+        } else {
+            return undefined;
+        }
+    } catch (_) {
+        return undefined;
+    }    
 }
