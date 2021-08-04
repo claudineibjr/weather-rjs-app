@@ -89,7 +89,7 @@ export class WeatherInfoMap {
 
             return new HourlyWeatherInfo(date, temperature, weatherInfoEnum, weatherInfoIcon);
         } catch (_) {
-            throw new Error("Error on converting");
+            throw new Error("Error on parse");
         }
     }    
 }

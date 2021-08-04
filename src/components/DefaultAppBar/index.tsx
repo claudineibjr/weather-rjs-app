@@ -4,8 +4,20 @@ import Typography from '@material-ui/core/Typography';
 
 import './styles.scss';
 import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import UserLocation from '../../data/model/UserPreferences/UserLocation';
+
+interface StateInterfaceProps {
+    userLocation: UserLocation | undefined;
+}
 
 export default function DefaultAppBar() {
+    const { userLocation } = useSelector<StateInterfaceProps, StateInterfaceProps>((state: StateInterfaceProps) => {
+        return {
+            userLocation: state.userLocation,
+        }
+    });
+    
     return (
         <AppBar position="static">
             <Toolbar className="DefaultAppBarMain">
@@ -14,9 +26,14 @@ export default function DefaultAppBar() {
                         Weather Info
                     </Typography>
                 </Link>
-                <Typography variant="h6">
-                    {new Date(Date.now()).toDateString()}
-                </Typography>
+                <div>
+                    <Typography variant="h6">
+                        {new Date(Date.now()).toDateString()}
+                    </Typography>
+                    {userLocation &&
+                        userLocation.name
+                    }
+                </div>
             </Toolbar>
         </AppBar>
     );

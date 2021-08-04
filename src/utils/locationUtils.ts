@@ -1,4 +1,5 @@
 import UserLocation from "../data/model/UserPreferences/UserLocation";
+import { loadGeocodingInfo } from "../services/OpenWeatherMapApi";
 
 export class LocationUtilities {
     static loadUserLocationIfNeeded(userLocation: UserLocation | undefined, updateUserLocationFunction: (userLocation: UserLocation) => void): Promise<void> {
@@ -8,8 +9,13 @@ export class LocationUtilities {
             }
 
             try {
-                const userLocation = await LocationUtilities.loadCurrentUserLocation();
+                let userLocation = await LocationUtilities.loadCurrentUserLocation();
                 updateUserLocationFunction(userLocation);
+
+                loadGeocodingInfo(userLocation.latitude, userLocation.longitude).then((openWeatherMapGeocodingResponse) => {
+                    userLocation = UserLocation.userLocationFromResponse(openWeatherMapGeocodingResponse);
+                    updateUserLocationFunction(userLocation);
+                });
             } catch (_) {
             } finally {
                 resolve();
