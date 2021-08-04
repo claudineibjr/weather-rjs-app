@@ -5,17 +5,22 @@ import { WeatherInfoMap } from "../../data/model/WeatherInfo/response/WeatherInf
 import { loadDayWeatherInfo } from "../../services/OpenWeatherMapApi";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import './styles.scss';
-import { Link } from "react-router-dom";
+import { Link, useParams, useRouteMatch } from "react-router-dom";
 import DefaultAppBar from "../../components/DefaultAppBar";
+import { DateUtilities } from "../../utils/utils";
 
 export default function HourlyWeatherInfoPage() {
     const [dayWeatherInfos, setDayWeatherInfos] = useState<Array<HourlyWeatherInfo> | undefined>(undefined);
     const [isLoading, setLoading] = useState<boolean>(false);
 
+    const { path } = useRouteMatch();
+
+    const day = (): Date => DateUtilities.getDateAccordingToCurrentWeekDayName(path);
+
     useEffect(() => {
         async function fetchMyAPI() {
             setLoading(true);
-
+            
             const dayWeatherInfo = await loadDayWeatherInfo();
             if (dayWeatherInfo !== undefined) {
                 let dayWeatherInfos: Array<HourlyWeatherInfo> = dayWeatherInfo.hourly.map((weatherInfoMap, _) => WeatherInfoMap.toHourlyWeatherInfo(weatherInfoMap));

@@ -8,8 +8,8 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import HourlyWeatherInfoPage from './pages/HourlyWeatherInfo';
 import { DateUtilities } from './utils/utils';
+import HourlyWeatherInfoPage from './pages/HourlyWeatherInfo';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,9 +19,9 @@ ReactDOM.render(
             [
               ...["/today", "/tomorrow", "/yesterday"],
               ...DateUtilities.days.map((day, _, __) => `/${day}`)
-            ]} >
-            <HourlyWeatherInfoPage />
-          </Route>
+            ]}
+            component={HourlyWeatherInfoPage}
+            />
           <Route path="/">
             <HomePage />
           </Route>

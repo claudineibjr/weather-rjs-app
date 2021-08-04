@@ -8,13 +8,16 @@ type WeatherDailyInfoProps = {
   weatherDailyInfo: DailyWeatherInfo
 }
 
-export const WeatherDailyInfo = ({ weatherDailyInfo }: WeatherDailyInfoProps) => (
-    <Link to={`/${DateUtilities.days[weatherDailyInfo.date.getDay()]}`} className="DefaultAnchor">
+export const WeatherDailyInfo = ({ weatherDailyInfo }: WeatherDailyInfoProps) => {
+  return (
+    <Link
+      to={`/${DateUtilities.days[weatherDailyInfo.date.getDay()]}`}
+      className="DefaultAnchor">
       <div className="WeatherDailyInfoMain">
-          <div className="DayName">
-            {DateUtilities.shortDays[weatherDailyInfo.date.getDay()]}
-          </div>
-        
+        <div className="DayName">
+          {DateUtilities.shortDays[weatherDailyInfo.date.getDay()]}
+        </div>
+
         <img className="WeatherIcon"
           alt="WeatherIcon"
           src={weatherDailyInfo.wheaterInfoIcon} />
@@ -29,4 +32,5 @@ export const WeatherDailyInfo = ({ weatherDailyInfo }: WeatherDailyInfoProps) =>
         </div >
       </div>
     </Link>
-);
+  );
+}
