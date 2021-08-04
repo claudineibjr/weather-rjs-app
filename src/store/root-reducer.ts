@@ -1,27 +1,31 @@
 import { Action, Reducer } from "redux";
+import UserPreferences from "../data/model/UserPreferences/UserPreferences";
 
-export interface State {
-    userPreferences: string;
+export interface StateInterface {
+    userPreferences: UserPreferences | undefined;
 }
 
-export const initialState: State = {
-    userPreferences: '',
+const initialState: StateInterface = {
+    userPreferences: undefined,
 };
 
 export interface DispatchAction extends Action<ActionType> {
-    payload: Partial<State>;
+    payload: Partial<StateInterface>;
 }
 
 export enum ActionType {
-    UpdateName,
+    UpdateUserPreferences,
 }
 
-export const rootReducer: Reducer<State, DispatchAction> = (state = initialState, action) => {
-    if (action.type === ActionType.UpdateName) {
-        return {
-            ...state, userPreferences: action.payload.userPreferences || ''
-        };
-    } else {
-        return state;
+export const rootReducer: Reducer<StateInterface, DispatchAction> = (state = initialState, action) => {
+    switch (action.type) {
+        case ActionType.UpdateUserPreferences:
+            return {
+                ...state,
+                userPreferences: action.payload.userPreferences
+            };
+
+        default:
+            return state;
     }
 };

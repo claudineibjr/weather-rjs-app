@@ -1,8 +1,9 @@
 import { Dispatch } from "redux";
-import { DispatchAction } from "./root-reducer";
+import UserPreferences from "../data/model/UserPreferences/UserPreferences";
+import { ActionType, DispatchAction } from "./root-reducer";
 
 export interface StateProps {
-    
+    userPreferences: string;
 };
 
 export class RootDispatcher {
@@ -12,4 +13,11 @@ export class RootDispatcher {
     constructor(dispatch: Dispatch<DispatchAction>) {
         this.dispatch = dispatch;
     }
+
+    updateName = (userPreferences: UserPreferences | undefined) => this.dispatch({
+        type: ActionType.UpdateUserPreferences,
+        payload: {
+            userPreferences
+        },
+    });
 }

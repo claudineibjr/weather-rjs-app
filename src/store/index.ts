@@ -1,4 +1,4 @@
-import { DispatchAction, State, rootReducer } from "./root-reducer";
+import { DispatchAction, StateInterface, rootReducer } from "./root-reducer";
 import { createStore } from "redux";
 
-export const store = createStore<State, DispatchAction, null, null>(rootReducer);
+export const store = createStore<StateInterface, DispatchAction, null, null>(rootReducer);
