@@ -65,38 +65,38 @@ export async function loadDayWeatherInfo(): Promise<OpenWeatherMapDayResponse | 
 }
 
 export async function loadGeocodingInfo(latitude: number, longitude: number): Promise<OpenWeatherMapGeocodingResponse | undefined> {
-    // // TODO: Map the data from JSON to OpenWeatherMapDayResponse
-    // let openWeatherMapGeocodingResponse: Array<OpenWeatherMapGeocodingResponse> = plainToClass(OpenWeatherMapGeocodingResponse, loadGeocodingInfoMockedData as Object[]);
+    // TODO: Map the data from JSON to OpenWeatherMapDayResponse
+    let openWeatherMapGeocodingResponse: Array<OpenWeatherMapGeocodingResponse> = plainToClass(OpenWeatherMapGeocodingResponse, loadGeocodingInfoMockedData as Object[]);
 
-    // await sleep(250);
+    await sleep(250);
 
-    // const OPEN_WHEATER_MAP_API_KEY = process.env.REACT_APP_OPEN_WHEATER_MAP_API_KEY;
+    const OPEN_WHEATER_MAP_API_KEY = process.env.REACT_APP_OPEN_WHEATER_MAP_API_KEY;
 
-    // // TODO: Map the data from JSON to OpenWeatherMapDayResponse
-    // if (openWeatherMapGeocodingResponse.length > 0) {
-    //     return openWeatherMapGeocodingResponse[0];
-    // } else {
-    //     return undefined;
-    // }
-
-    try {
-        const OPEN_WHEATER_MAP_API_KEY = process.env.REACT_APP_OPEN_WHEATER_MAP_API_KEY;
-
-        const response = await axios.get(
-            `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${OPEN_WHEATER_MAP_API_KEY}`
-        );
-
-        if (response.status === 200) {
-            let openWeatherMapGeocodingResponse: Array<OpenWeatherMapGeocodingResponse> = plainToClass(OpenWeatherMapGeocodingResponse, response.data as Object[]);
-            if (openWeatherMapGeocodingResponse.length > 0) {
-                return openWeatherMapGeocodingResponse[0];
-            } else {
-                return undefined;
-            }
-        } else {
-            return undefined;
-        }
-    } catch (_) {
+    // TODO: Map the data from JSON to OpenWeatherMapDayResponse
+    if (openWeatherMapGeocodingResponse.length > 0) {
+        return openWeatherMapGeocodingResponse[0];
+    } else {
         return undefined;
     }
+
+    // try {
+    //     const OPEN_WHEATER_MAP_API_KEY = process.env.REACT_APP_OPEN_WHEATER_MAP_API_KEY;
+
+    //     const response = await axios.get(
+    //         `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${OPEN_WHEATER_MAP_API_KEY}`
+    //     );
+
+    //     if (response.status === 200) {
+    //         let openWeatherMapGeocodingResponse: Array<OpenWeatherMapGeocodingResponse> = plainToClass(OpenWeatherMapGeocodingResponse, response.data as Object[]);
+    //         if (openWeatherMapGeocodingResponse.length > 0) {
+    //             return openWeatherMapGeocodingResponse[0];
+    //         } else {
+    //             return undefined;
+    //         }
+    //     } else {
+    //         return undefined;
+    //     }
+    // } catch (_) {
+    //     return undefined;
+    // }
 }
