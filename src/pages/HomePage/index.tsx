@@ -21,6 +21,7 @@ interface StateInterfaceProps {
 export function HomePage() {
     const [weekWeatherInfos, setWeekWeatherInfos] = useState<Array<DailyWeatherInfo>>([]);
     const [isLoading, setLoading] = useState<boolean>(false);
+    const [isError, setError] = useState<boolean>(false);
 
     const { userLocation } = useSelector<StateInterfaceProps, StateInterfaceProps>((state: StateInterfaceProps) => {
         return {
@@ -32,15 +33,19 @@ export function HomePage() {
 
     useEffect(() => {
         async function fetchMyAPI() {
-            const weekWeatherInfo = await loadWeekWeatherInfo();
-            if (weekWeatherInfo !== undefined) {
-                let weekWeatherInfos = weekWeatherInfo.daily.map((weatherInfoMap, _) => WeatherInfoMap.toDailyWeatherInfo(weatherInfoMap));
-                weekWeatherInfos.sort((weatherInfoA, weatherInfoB) => weatherInfoA.date.getTime() - weatherInfoB.date.getTime());
-                if (weekWeatherInfos.length > 5) {
-                    weekWeatherInfos = weekWeatherInfos.slice(0, 5);
-                }
+            if (userLocation !== undefined) {
+                const weekWeatherInfo = await loadWeekWeatherInfo(userLocation!.latitude, userLocation!.longitude);
+                if (weekWeatherInfo !== undefined) {
+                    let weekWeatherInfos = weekWeatherInfo.daily.map((weatherInfoMap, _) => WeatherInfoMap.toDailyWeatherInfo(weatherInfoMap));
+                    weekWeatherInfos.sort((weatherInfoA, weatherInfoB) => weatherInfoA.date.getTime() - weatherInfoB.date.getTime());
+                    if (weekWeatherInfos.length > 5) {
+                        weekWeatherInfos = weekWeatherInfos.slice(0, 5);
+                    }
 
-                setWeekWeatherInfos(weekWeatherInfos);
+                    setWeekWeatherInfos(weekWeatherInfos);
+                }
+            } else {
+                setError(false);
             }
         }
 
@@ -63,10 +68,12 @@ export function HomePage() {
             <div className="WeekWeatherInfo">
                 {isLoading ?
                     <CircularProgress />
-                    : weekWeatherInfos !== undefined &&
-                    weekWeatherInfos.map((dayWeatherInfo, _) =>
-                        <WeatherDailyInfo weatherDailyInfo={dayWeatherInfo} />
-                    )
+                    : weekWeatherInfos !== undefined ?
+                        weekWeatherInfos.map((dayWeatherInfo, _) =>
+                            <WeatherDailyInfo weatherDailyInfo={dayWeatherInfo} />
+                        )
+                        : isError &&
+                        'Erro'
                 }
             </div>
         </div>

@@ -20,6 +20,7 @@ interface StateInterfaceProps {
 export default function HourlyWeatherInfoPage() {
     const [dayWeatherInfos, setDayWeatherInfos] = useState<Array<HourlyWeatherInfo> | undefined>(undefined);
     const [isLoading, setLoading] = useState<boolean>(false);
+    const [isError, setError] = useState<boolean>(false);
 
     const { userLocation } = useSelector<StateInterfaceProps, StateInterfaceProps>((state: StateInterfaceProps) => {
         return {
@@ -35,15 +36,23 @@ export default function HourlyWeatherInfoPage() {
 
     useEffect(() => {
         async function fetchMyAPI() {
-            const dayWeatherInfo = await loadDayWeatherInfo();
-            if (dayWeatherInfo !== undefined) {
-                let dayWeatherInfos: Array<HourlyWeatherInfo> = dayWeatherInfo.hourly.map((weatherInfoMap, _) => WeatherInfoMap.toHourlyWeatherInfo(weatherInfoMap));
-                dayWeatherInfos.sort((weatherInfoA, weatherInfoB) => weatherInfoA.date.getTime() - weatherInfoB.date.getTime());
-                let firstOfDay: HourlyWeatherInfo = dayWeatherInfos.filter((hourlyWeatherInfo) => hourlyWeatherInfo.date.getHours() === 0)[0];
-                let indexOfFirstOfDay = dayWeatherInfos.indexOf(firstOfDay);
-                dayWeatherInfos = dayWeatherInfos.slice(indexOfFirstOfDay, indexOfFirstOfDay + 24);
+            if (userLocation !== undefined) {
+                const dayWeatherInfo = await loadDayWeatherInfo(userLocation!.latitude, userLocation!.longitude);
+                if (dayWeatherInfo !== undefined) {
+                    let dayWeatherInfos: Array<HourlyWeatherInfo> = dayWeatherInfo.hourly.map((weatherInfoMap, _) => WeatherInfoMap.toHourlyWeatherInfo(weatherInfoMap));
+                    dayWeatherInfos.sort((weatherInfoA, weatherInfoB) => weatherInfoA.date.getTime() - weatherInfoB.date.getTime());
+                    
+                    const date = day().getDate();
+                    dayWeatherInfos = dayWeatherInfos.filter((hourlyWeatherInfo) => hourlyWeatherInfo.date.getDate() === date);
+                    
+                    let firstOfDay: HourlyWeatherInfo = dayWeatherInfos.filter((hourlyWeatherInfo) => hourlyWeatherInfo.date.getHours() === 0)[0];
+                    let indexOfFirstOfDay = dayWeatherInfos.indexOf(firstOfDay);
+                    dayWeatherInfos = dayWeatherInfos.slice(indexOfFirstOfDay, indexOfFirstOfDay + 24);
 
-                setDayWeatherInfos(dayWeatherInfos);
+                    setDayWeatherInfos(dayWeatherInfos);
+                }
+            } else {
+                setError(false);
             }
 
         }
@@ -67,9 +76,11 @@ export default function HourlyWeatherInfoPage() {
             <div className="HourlyWeatherInfoChart">
                 {isLoading ?
                     <CircularProgress />
-                    : dayWeatherInfos !== undefined &&
-                    <WeatherHourlyChart
-                        weatherDailyInfo={dayWeatherInfos} />
+                    : dayWeatherInfos !== undefined ?
+                        <WeatherHourlyChart
+                            weatherDailyInfo={dayWeatherInfos} />
+                        : isError &&
+                        'Erro'
                 }
             </div>
         </div>
