@@ -7,10 +7,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import './styles.scss';
 import DefaultAppBar from '../../components/DefaultAppBar';
 import { LocationUtilities } from '../../utils/locationUtils';
+import UserLocation from '../../data/model/UserPreferences/UserLocation';
 
 export function HomePage() {
     const [weekWeatherInfos, setWeekWeatherInfos] = useState<Array<DailyWeatherInfo>>([]);
     const [isLoading, setLoading] = useState<boolean>(false);
+    const [userLocation, setUserLocation] = useState<UserLocation | undefined>(undefined);
 
     useEffect(() => {
         async function fetchMyAPI() {
@@ -28,7 +30,16 @@ export function HomePage() {
 
         setLoading(true);
         Promise.all([
-            LocationUtilities.loadCurrentUserLocation(),
+            new Promise<void>(async (resolve, _) => {
+                try {
+                    const userLocation = await LocationUtilities.loadCurrentUserLocation();
+                    setUserLocation(userLocation);
+                } catch(_) {
+                } finally {
+                    console.log(userLocation);
+                    resolve();
+                }
+            }),
             fetchMyAPI(),
         ]).then(() =>
             setLoading(false)

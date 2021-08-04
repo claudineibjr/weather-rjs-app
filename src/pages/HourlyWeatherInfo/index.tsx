@@ -9,10 +9,12 @@ import { useRouteMatch } from "react-router-dom";
 import DefaultAppBar from "../../components/DefaultAppBar";
 import { DateUtilities } from "../../utils/utils";
 import { LocationUtilities } from "../../utils/locationUtils";
+import UserLocation from "../../data/model/UserPreferences/UserLocation";
 
 export default function HourlyWeatherInfoPage() {
     const [dayWeatherInfos, setDayWeatherInfos] = useState<Array<HourlyWeatherInfo> | undefined>(undefined);
     const [isLoading, setLoading] = useState<boolean>(false);
+    const [userLocation, setUserLocation] = useState<UserLocation | undefined>(undefined);
 
     const { path } = useRouteMatch();
 
@@ -35,7 +37,16 @@ export default function HourlyWeatherInfoPage() {
 
         setLoading(true);
         Promise.all([
-            LocationUtilities.loadCurrentUserLocation(),
+            new Promise<void>(async (resolve, _) => {
+                try {
+                    const userLocation = await LocationUtilities.loadCurrentUserLocation();
+                    setUserLocation(userLocation);
+                } catch (_) {
+                } finally {
+                    console.log(userLocation);
+                    resolve();
+                }
+            }),
             fetchMyAPI(),
         ]).then(() =>
             setLoading(false)
