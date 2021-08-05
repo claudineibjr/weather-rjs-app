@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { WeatherDailyInfo } from '../../components/WeatherDailyInfo';
-import { WeatherInfoMap } from '../../data/model/WeatherInfo/response/WeatherInfoMap';
 import { DailyWeatherInfo } from '../../data/model/WeatherInfo/DailyWeatherInfo';
 import { loadWeekWeatherInfo } from '../../services/OpenWeatherMapApi';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -10,9 +9,6 @@ import { LocationUtilities } from '../../utils/locationUtils';
 import UserLocation from '../../data/model/UserPreferences/UserLocation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootDispatcher, StateProps } from '../../store/root-redux';
-import { StateInterface } from '../../store/root-reducer';
-import UserPreferences from '../../data/model/UserPreferences/UserPreferences';
-import { RSA_NO_PADDING } from 'node:constants';
 
 interface StateInterfaceProps {
     userLocation: UserLocation | undefined;
@@ -36,28 +32,44 @@ export function HomePage() {
             if (userLocation !== undefined) {
                 const weekWeatherInfo = await loadWeekWeatherInfo(userLocation!.latitude, userLocation!.longitude);
                 if (weekWeatherInfo !== undefined) {
-                    let weekWeatherInfos = weekWeatherInfo.daily.map((weatherInfoMap, _) => WeatherInfoMap.toDailyWeatherInfo(weatherInfoMap));
+                    let weekWeatherInfos = weekWeatherInfo.daily.map((weatherInfoMap, _) => DailyWeatherInfo.fromWeatherInfoMapInterface(weatherInfoMap));
                     weekWeatherInfos.sort((weatherInfoA, weatherInfoB) => weatherInfoA.date.getTime() - weatherInfoB.date.getTime());
+
                     if (weekWeatherInfos.length > 5) {
                         weekWeatherInfos = weekWeatherInfos.slice(0, 5);
                     }
 
                     setWeekWeatherInfos(weekWeatherInfos);
                 }
-            } else {
-                setError(false);
             }
         }
 
+        async function loadData() {
+            setError(false);
+
+            await fetchMyAPI();
+        }
+
         setLoading(true);
-        Promise.all([
-            LocationUtilities.loadUserLocationIfNeeded(
+        loadData().then(
+            () => setLoading(false)
+        );
+
+    }, [userLocation]);
+
+    useEffect(() => {
+        async function loadData() {
+            setError(false);
+            
+            await LocationUtilities.loadUserLocationIfNeeded(
                 userLocation,
                 rootDispatcher.updateUserLocation,
-            ),
-            fetchMyAPI(),
-        ]).then(() =>
-            setLoading(false)
+            );
+        }
+
+        setLoading(true);
+        loadData().then(
+            () => setLoading(false)
         );
     }, []);
 
@@ -68,12 +80,12 @@ export function HomePage() {
             <div className="WeekWeatherInfo">
                 {isLoading ?
                     <CircularProgress />
-                    : weekWeatherInfos !== undefined ?
+                    : isError ?
+                        'Error'
+                        : weekWeatherInfos !== undefined &&
                         weekWeatherInfos.map((dayWeatherInfo, _) =>
                             <WeatherDailyInfo weatherDailyInfo={dayWeatherInfo} />
                         )
-                        : isError &&
-                        'Erro'
                 }
             </div>
         </div>
