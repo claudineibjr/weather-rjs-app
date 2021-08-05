@@ -18,4 +18,19 @@ export class WeatherInfo {
         this.wheaterInfo = wheaterInfo;
         this.wheaterInfoIcon = wheaterInfoIcon;
     }
+
+    whaterInfoText = (): string => {
+        switch (this.wheaterInfo) {
+            case WeatherInfoEnum.Thunderstorm: return 'Thunderstorm';
+            case WeatherInfoEnum.Drizzle: return 'Drizzle';
+            case WeatherInfoEnum.Rain: return 'Rain';
+            case WeatherInfoEnum.Snow: return 'Snow';
+            case WeatherInfoEnum.Atmosphere: return 'Atmosphere';
+            case WeatherInfoEnum.Clear: return 'Clear';
+            case WeatherInfoEnum.Clouds: return 'Clouds';
+
+            default:
+                return '';
+        }
+    }
 }
