@@ -49,4 +49,20 @@ export async function load5Days3HoursForecastWeatherInfo(latitude: number, longi
     } catch (_) {
         return undefined;
     }
+
+    // try {
+    //     const OPEN_WHEATER_MAP_API_KEY = process.env.REACT_APP_OPEN_WHEATER_MAP_API_KEY;
+    //     const response = await axios.get(
+    //         `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${OPEN_WHEATER_MAP_API_KEY}&units=imperial`
+    //     );
+
+    //     if (response.status === 200) {
+    //         const openWeatherMap5Day3HoursWeatherInfoResponse: OpenWeatherMap5Day3HoursWeatherInfoResponse = plainToClass(OpenWeatherMap5Day3HoursWeatherInfoResponse, response.data as Object);
+    //         return openWeatherMap5Day3HoursWeatherInfoResponse;
+    //     } else {
+    //         return undefined;
+    //     }
+    // } catch (_) {
+    //     return undefined;
+    // }
 }
