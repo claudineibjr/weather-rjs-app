@@ -115,7 +115,9 @@ export default function HourlyWeatherInfoPage() {
                 </div>
 
                 {isLoadingDetailedData || isLoading ?
-                    <CircularProgress />
+                    <div className="HourlyWeatherInfoChartCircularProgress">
+                        <CircularProgress />
+                    </div>
                     : localHourlyWeatherInfos !== undefined &&
                     <WeatherHourlyChart
                         weatherDailyInfo={localHourlyWeatherInfos} />
