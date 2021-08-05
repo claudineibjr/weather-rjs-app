@@ -31,5 +31,12 @@ export class RootDispatcher {
         payload: {
             weekWeatherInfos
         },
-    });  
+    });
+
+    setIsLoadingDetailedData = (isLoadingDetailedData: boolean) => this.dispatch({
+        type: ActionType.SetIsLoadingDetailedData,
+        payload: {
+            isLoadingDetailedData
+        },
+    });
 }
