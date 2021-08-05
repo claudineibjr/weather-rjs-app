@@ -5,6 +5,7 @@ export class LocationUtilities {
         return new Promise<void>(async (resolve, _) => {           
             if (userLocation !== undefined) {
                 resolve();
+                return;
             }
 
             try {
