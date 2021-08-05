@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { WeatherHourlyChart } from "../../components/WeatherHourlyChart";
 import { HourlyWeatherInfo } from "../../data/model/WeatherInfo/HourlyWeatherInfo";
-import { WeatherInfoMap } from "../../data/model/WeatherInfo/response/WeatherInfoMap";
-import { loadDayWeatherInfo } from "../../services/OpenWeatherMapApi";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import './styles.scss';
 import { useRouteMatch } from "react-router-dom";
@@ -12,19 +10,27 @@ import { LocationUtilities } from "../../utils/locationUtils";
 import UserLocation from "../../data/model/UserPreferences/UserLocation";
 import { useSelector, useDispatch } from "react-redux";
 import { RootDispatcher } from "../../store/root-redux";
+import { load5Days3HoursForecastWeatherInfo } from "../../services/OpenWeatherMapApi";
+import { WeatherDataUtilities } from "../../utils/weatherDataUtilis";
+import { DailyWeatherInfo } from "../../data/model/WeatherInfo/DailyWeatherInfo";
 
 interface StateInterfaceProps {
     userLocation: UserLocation | undefined;
+    hourlyWeatherInfos: Array<HourlyWeatherInfo> | undefined;
+    isLoadingDetailedData?: boolean;
+    weekWeatherInfos?: Array<DailyWeatherInfo>;
 }
 
 export default function HourlyWeatherInfoPage() {
-    const [dayWeatherInfos, setDayWeatherInfos] = useState<Array<HourlyWeatherInfo> | undefined>(undefined);
+    const [localHourlyWeatherInfos, setLocalHourlyWeatherInfos] = useState<Array<HourlyWeatherInfo> | undefined>(undefined);
     const [isLoading, setLoading] = useState<boolean>(false);
-    const [isError, setError] = useState<boolean>(false);
-
-    const { userLocation } = useSelector<StateInterfaceProps, StateInterfaceProps>((state: StateInterfaceProps) => {
+    
+    const { userLocation, hourlyWeatherInfos, isLoadingDetailedData, weekWeatherInfos } = useSelector<StateInterfaceProps, StateInterfaceProps>((state: StateInterfaceProps) => {
         return {
             userLocation: state.userLocation,
+            hourlyWeatherInfos: state.hourlyWeatherInfos,
+            isLoadingDetailedData: state.isLoadingDetailedData,
+            weekWeatherInfos: state.weekWeatherInfos,
         }
     });
 
@@ -35,37 +41,42 @@ export default function HourlyWeatherInfoPage() {
     const day = (): Date => DateUtilities.getDateAccordingToCurrentWeekDayName(path);
 
     useEffect(() => {
-        async function fetchMyAPI() {
-            if (userLocation !== undefined) {
-                const dayWeatherInfo = await loadDayWeatherInfo(userLocation!.latitude, userLocation!.longitude);
-                if (dayWeatherInfo !== undefined) {
-                    let dayWeatherInfos: Array<HourlyWeatherInfo> = dayWeatherInfo.hourly.map((weatherInfoMap, _) => WeatherInfoMap.toHourlyWeatherInfo(weatherInfoMap));
-                    dayWeatherInfos.sort((weatherInfoA, weatherInfoB) => weatherInfoA.date.getTime() - weatherInfoB.date.getTime());
-                    
-                    const date = day().getDate();
-                    dayWeatherInfos = dayWeatherInfos.filter((hourlyWeatherInfo) => hourlyWeatherInfo.date.getDate() === date);
-                    
-                    let firstOfDay: HourlyWeatherInfo = dayWeatherInfos.filter((hourlyWeatherInfo) => hourlyWeatherInfo.date.getHours() === 0)[0];
-                    let indexOfFirstOfDay = dayWeatherInfos.indexOf(firstOfDay);
-                    dayWeatherInfos = dayWeatherInfos.slice(indexOfFirstOfDay, indexOfFirstOfDay + 24);
+        async function loadData() {
+            await WeatherDataUtilities.fetchMyAPI(
+                rootDispatcher.setIsLoadingDetailedData,
+                rootDispatcher.updateHourlyWeatherInfos,
+                rootDispatcher.updateUserLocation,
+                rootDispatcher.updateWeekWeatherInfos,
+                userLocation,
+                hourlyWeatherInfos,
+                weekWeatherInfos
+            );
+        }
+        
+        loadData();
 
-                    setDayWeatherInfos(dayWeatherInfos);
-                }
-            } else {
-                setError(false);
-            }
+    }, [userLocation]);
 
+    useEffect(() => {
+        if (hourlyWeatherInfos !== undefined) {
+            const date: number = day().getDate();
+            const localHourlyWeatherInfos = hourlyWeatherInfos.filter((hourly) => hourly.date.getDate() === date);
+
+            setLocalHourlyWeatherInfos(localHourlyWeatherInfos);
+        }
+    }, [hourlyWeatherInfos]);
+
+    useEffect(() => {
+        async function loadData() {
+            await LocationUtilities.loadUserLocationIfNeeded(
+                userLocation,
+                rootDispatcher.updateUserLocation,
+            );
         }
 
         setLoading(true);
-        Promise.all([
-            LocationUtilities.loadUserLocationIfNeeded(
-                userLocation,
-                rootDispatcher.updateUserLocation,
-            ),
-            fetchMyAPI(),
-        ]).then(() =>
-            setLoading(false)
+        loadData().then(
+            () => setLoading(false)
         );
     }, []);
 
@@ -74,13 +85,11 @@ export default function HourlyWeatherInfoPage() {
             <DefaultAppBar />
 
             <div className="HourlyWeatherInfoChart">
-                {isLoading ?
+                {isLoadingDetailedData || isLoading ?
                     <CircularProgress />
-                    : dayWeatherInfos !== undefined ?
-                        <WeatherHourlyChart
-                            weatherDailyInfo={dayWeatherInfos} />
-                        : isError &&
-                        'Erro'
+                    : localHourlyWeatherInfos !== undefined &&
+                    <WeatherHourlyChart
+                        weatherDailyInfo={localHourlyWeatherInfos} />
                 }
             </div>
         </div>

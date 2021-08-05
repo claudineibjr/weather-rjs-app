@@ -1,4 +1,4 @@
-import { WeatherInfoMapInterface } from "../OpenWeatherResponse/OpenWeatherMapWeekResponse";
+import { WeatherInfo5Days3HoursForecastMapInterface } from "../OpenWeatherResponse/OpenWeatherMap5Day3HoursWeatherInfoResponse";
 import { WeatherInfo, WeatherInfoEnum } from "./WeatherInfo";
 
 export class HourlyWeatherInfo extends WeatherInfo {
@@ -9,20 +9,20 @@ export class HourlyWeatherInfo extends WeatherInfo {
         this.temperature = temperature;
     }
 
-    static fromWeatherInfoMap(weatherInfoMap?: WeatherInfoMapInterface): HourlyWeatherInfo {
+    static fromWeatherInfo5Days3HoursForecastMapInterface(weatherInfo5Days3HoursForecastMapInterface?: WeatherInfo5Days3HoursForecastMapInterface): HourlyWeatherInfo {
         try {
-            if (weatherInfoMap === undefined) {
+            if (weatherInfo5Days3HoursForecastMapInterface === undefined) {
                 throw new Error("weatherInfoMap == undefined");
             }
 
-            const date = new Date(weatherInfoMap.dt * 1000);
+            const date = new Date(weatherInfo5Days3HoursForecastMapInterface.dt * 1000);
 
-            let temperature: number = (weatherInfoMap.temp as number);
+            let temperature: number = weatherInfo5Days3HoursForecastMapInterface.main.temp;
 
             let weatherInfoEnum: WeatherInfoEnum = WeatherInfoEnum.Clear;
             let weatherInfoIcon: string = '';
 
-            const weatherInfo = weatherInfoMap.weather[0];
+            const weatherInfo = weatherInfo5Days3HoursForecastMapInterface.weather[0];
             weatherInfoIcon = `http://openweathermap.org/img/wn/${weatherInfo.icon}@2x.png`;
 
             // Get the group of weather conditions

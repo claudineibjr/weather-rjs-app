@@ -19,7 +19,7 @@ export class DateUtilities {
 
         let differenceDays = dayNameIndex - dayNameNowIndex;
         if (differenceDays < 0) {
-            differenceDays = differenceDays * -1;
+            differenceDays = differenceDays + 7;
         }
         date.setDate(date.getDate() + differenceDays);
 

@@ -13,14 +13,14 @@ export class RootDispatcher {
         this.dispatch = dispatch;
     }
 
-    updateUserPreferences = (userPreferences: UserPreferences | undefined) => this.dispatch({
+    updateUserPreferences = (userPreferences: UserPreferences) => this.dispatch({
         type: ActionType.UpdateUserPreferences,
         payload: {
             userPreferences
         },
     });
     
-    updateUserLocation = (userLocation: UserLocation | undefined) => this.dispatch({
+    updateUserLocation = (userLocation: UserLocation) => this.dispatch({
         type: ActionType.UpdateUserLocation,
         payload: {
             userLocation

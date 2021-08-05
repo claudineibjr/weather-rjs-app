@@ -8,7 +8,7 @@ export interface WeatherInfoMapResponseInterface {
     icon: string,
 }
 
-interface WeatherInfo5Days3HoursForecastMapInterface {
+export interface WeatherInfo5Days3HoursForecastMapInterface {
     dt: number,
     main: WeatherInfo5Days3HoursForecastMainMapInterface,
     weather: Array<WeatherInfoMapResponseInterface>,

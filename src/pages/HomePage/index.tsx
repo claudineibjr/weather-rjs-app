@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { WeatherDailyInfo } from '../../components/WeatherDailyInfo';
 import { DailyWeatherInfo } from '../../data/model/WeatherInfo/DailyWeatherInfo';
-import { loadWeekWeatherInfo } from '../../services/OpenWeatherMapApi';
+import { load5Days3HoursForecastWeatherInfo, loadWeekWeatherInfo } from '../../services/OpenWeatherMapApi';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import './styles.scss';
 import DefaultAppBar from '../../components/DefaultAppBar';
@@ -9,45 +9,39 @@ import { LocationUtilities } from '../../utils/locationUtils';
 import UserLocation from '../../data/model/UserPreferences/UserLocation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootDispatcher } from '../../store/root-redux';
+import { HourlyWeatherInfo } from '../../data/model/WeatherInfo/HourlyWeatherInfo';
+import { WeatherDataUtilities } from '../../utils/weatherDataUtilis';
 
 interface StateInterfaceProps {
     userLocation: UserLocation | undefined;
-    weekWeatherInfos: Array<DailyWeatherInfo> | undefined;
+    weekWeatherInfos?: Array<DailyWeatherInfo>;
+    hourlyWeatherInfos?: Array<HourlyWeatherInfo>;
 }
 
 export function HomePage() {
     const [isLoading, setLoading] = useState<boolean>(false);
 
-    const { userLocation, weekWeatherInfos } = useSelector<StateInterfaceProps, StateInterfaceProps>((state: StateInterfaceProps) => {
+    const { userLocation, weekWeatherInfos, hourlyWeatherInfos } = useSelector<StateInterfaceProps, StateInterfaceProps>((state: StateInterfaceProps) => {
         return {
             userLocation: state.userLocation,
             weekWeatherInfos: state.weekWeatherInfos,
+            hourlyWeatherInfos: state.hourlyWeatherInfos,
         }
     });
 
     const rootDispatcher = new RootDispatcher(useDispatch());
 
     useEffect(() => {
-        async function fetchMyAPI() {
-            if (weekWeatherInfos === undefined) {
-                if (userLocation !== undefined) {
-                    const weekWeatherInfo = await loadWeekWeatherInfo(userLocation!.latitude, userLocation!.longitude);
-                    if (weekWeatherInfo !== undefined) {
-                        let weekWeatherInfos = weekWeatherInfo.daily.map((weatherInfoMap, _) => DailyWeatherInfo.fromWeatherInfoMapInterface(weatherInfoMap));
-                        weekWeatherInfos.sort((weatherInfoA, weatherInfoB) => weatherInfoA.date.getTime() - weatherInfoB.date.getTime());
-
-                        if (weekWeatherInfos.length > 5) {
-                            weekWeatherInfos = weekWeatherInfos.slice(0, 5);
-                        }
-
-                        rootDispatcher.updateWeekWeatherInfos(weekWeatherInfos);
-                    }
-                }
-            }
-        }
-
         async function loadData() {
-            await fetchMyAPI();
+            await WeatherDataUtilities.fetchMyAPI(
+                rootDispatcher.setIsLoadingDetailedData,
+                rootDispatcher.updateHourlyWeatherInfos,
+                rootDispatcher.updateUserLocation,
+                rootDispatcher.updateWeekWeatherInfos,
+                userLocation,
+                hourlyWeatherInfos,
+                weekWeatherInfos
+            );
         }
 
         setLoading(true);
