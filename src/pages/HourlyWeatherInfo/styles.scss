@@ -9,8 +9,8 @@
 .HourlyWeatherInfoMain .HourlyWeatherInfoChart {
     margin-left: $margin-left;
     margin-right: $margin-right;
-    justify-items: center;
     margin-top: 2.5vh;
+    justify-items: center;
     padding-bottom: 1vh;
     
     background-color: white;
@@ -20,17 +20,35 @@
 }
 
 .HourlyWeatherInfoMain .HourlyWeatherInfoChartHeader {   
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
     background-color: #3f51b5;
-    color: white;
     
     padding-left: 1.5vw;
     padding-right: 1.5vw;
     padding-top: 1vh;
     padding-bottom: 1vh;
 
-    font-size: large;
-    
     border: 1px solid rgba(0,0,0,0.25);
     border-radius: 5px;
     box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.25);
+}
+
+.HourlyWeatherInfoChartHeader .HourlyWeatherInfoChartHeaderText {
+    font-size: large;
+    color: white;
+}
+
+.HourlyWeatherInfoChartHeaderTextButtonGroup {
+    background-color: white;
+}
+
+.HourlyWeatherInfoChartHeaderTextButtonGroup .HourlyWeatherInfoChartHeaderTextButtonSelected {
+    font-weight: 700 !important;
+    color: #3f51b5 !important;
+    font-size: medium;
 }

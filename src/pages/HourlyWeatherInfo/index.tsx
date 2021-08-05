@@ -3,7 +3,7 @@ import { WeatherHourlyChart } from "../../components/WeatherHourlyChart";
 import { HourlyWeatherInfo } from "../../data/model/WeatherInfo/HourlyWeatherInfo";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import './styles.scss';
-import { useRouteMatch } from "react-router-dom";
+import { Link, useRouteMatch, useHistory } from "react-router-dom";
 import DefaultAppBar from "../../components/DefaultAppBar";
 import { DateUtilities } from "../../utils/dateUtils";
 import { LocationUtilities } from "../../utils/locationUtils";
@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootDispatcher } from "../../store/root-redux";
 import { WeatherDataUtilities } from "../../utils/weatherDataUtilis";
 import { DailyWeatherInfo } from "../../data/model/WeatherInfo/DailyWeatherInfo";
+import { ButtonGroup, Button } from "@material-ui/core";
 
 interface StateInterfaceProps {
     userLocation: UserLocation | undefined;
@@ -23,7 +24,9 @@ interface StateInterfaceProps {
 export default function HourlyWeatherInfoPage() {
     const [localHourlyWeatherInfos, setLocalHourlyWeatherInfos] = useState<Array<HourlyWeatherInfo> | undefined>(undefined);
     const [isLoading, setLoading] = useState<boolean>(false);
-    
+
+    const history = useHistory();
+
     const { userLocation, hourlyWeatherInfos, isLoadingDetailedData, weekWeatherInfos } = useSelector<StateInterfaceProps, StateInterfaceProps>((state: StateInterfaceProps) => {
         return {
             userLocation: state.userLocation,
@@ -51,7 +54,7 @@ export default function HourlyWeatherInfoPage() {
                 weekWeatherInfos
             );
         }
-        
+
         loadData();
 
     }, [userLocation]);
@@ -85,7 +88,30 @@ export default function HourlyWeatherInfoPage() {
 
             <div className="HourlyWeatherInfoChart">
                 <div className="HourlyWeatherInfoChartHeader">
-                    {day().toDateString()}
+                    <div className="HourlyWeatherInfoChartHeaderText">
+                        {day().toDateString()}
+                    </div>
+
+                    {weekWeatherInfos &&
+                        <ButtonGroup className="HourlyWeatherInfoChartHeaderTextButtonGroup">                           
+                            {weekWeatherInfos.map((dayWeatherInfo) => {
+                                const weekDay = DateUtilities.days[dayWeatherInfo.date.getDay()];
+
+                                const isSelected = day().getDay() === dayWeatherInfo.date.getDay();
+
+                                return (
+                                    <Button
+                                        onClick={() => {
+                                            history.push(`/${weekDay}`);
+                                            history.go(0);
+                                        }}
+                                        className={isSelected ? 'HourlyWeatherInfoChartHeaderTextButtonSelected' : ''}>
+                                        {weekDay}
+                                    </Button>
+                                );
+                            })}
+                        </ButtonGroup>
+                    }
                 </div>
 
                 {isLoadingDetailedData || isLoading ?
