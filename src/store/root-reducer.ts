@@ -2,11 +2,13 @@ import { Action, Reducer } from "redux";
 import UserLocation from "../data/model/UserPreferences/UserLocation";
 import UserPreferences from "../data/model/UserPreferences/UserPreferences";
 import { DailyWeatherInfo } from "../data/model/WeatherInfo/DailyWeatherInfo";
+import { HourlyWeatherInfo } from "../data/model/WeatherInfo/HourlyWeatherInfo";
 
 export interface StateInterface {
     userPreferences: UserPreferences | undefined;
     userLocation: UserLocation | undefined;
     weekWeatherInfos: Array<DailyWeatherInfo> | undefined;
+    hourlyWeatherInfos: Array<HourlyWeatherInfo> | undefined;
     isLoadingDetailedData?: boolean;
 }
 
@@ -14,6 +16,7 @@ const initialState: StateInterface = {
     userPreferences: undefined,
     userLocation: undefined,
     weekWeatherInfos: undefined,
+    hourlyWeatherInfos: undefined,
     isLoadingDetailedData: false,
 };
 
@@ -25,6 +28,7 @@ export enum ActionType {
     UpdateUserPreferences,
     UpdateUserLocation,
     UpdateWeekWeatherInfos,
+    UpdateHourlyWeatherInfos,
     SetIsLoadingDetailedData
 }
 
@@ -55,6 +59,12 @@ export const rootReducer: Reducer<StateInterface, DispatchAction> = (state = ini
             return {
                 ...state,
                 weekWeatherInfos: action.payload.weekWeatherInfos,
+            };
+
+        case ActionType.UpdateHourlyWeatherInfos:
+            return {
+                ...state,
+                hourlyWeatherInfos: action.payload.hourlyWeatherInfos,
             };
 
         case ActionType.SetIsLoadingDetailedData:
