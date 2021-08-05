@@ -38,6 +38,7 @@ export class WeatherDataUtilities {
                 if (weekWeatherInfo !== undefined) {
                     let weekWeatherInfos = weekWeatherInfo.daily.map((weatherInfoMap, _) => DailyWeatherInfo.fromWeatherInfoMapInterface(weatherInfoMap));
                     weekWeatherInfos.sort((weatherInfoA, weatherInfoB) => weatherInfoA.date.getTime() - weatherInfoB.date.getTime());
+                    weekWeatherInfos = weekWeatherInfos.filter((weatherInfo) => DateUtilities.dateIsAfterToday(weatherInfo.date));
 
                     if (weekWeatherInfos.length > 5) {
                         weekWeatherInfos = weekWeatherInfos.slice(0, 5);
