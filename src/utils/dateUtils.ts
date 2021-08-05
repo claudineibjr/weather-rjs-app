@@ -44,4 +44,28 @@ export class DateUtilities {
 
         return null;
     }
+
+    static dateIsAfterToday = (comparativeDate: Date): boolean => {
+        const now = DateUtilities.resetHourMinuteSecondMillisecond(new Date(Date.now()));
+        comparativeDate = DateUtilities.resetHourMinuteSecondMillisecond(comparativeDate);
+        
+        if (now.getFullYear() === comparativeDate.getFullYear()) {
+            if (now.getMonth() === comparativeDate.getMonth()) {
+                return comparativeDate.getDate() > now.getDate();
+            } else {
+                return comparativeDate.getMonth() > now.getMonth();
+            }
+        } else {
+            return comparativeDate.getFullYear() > now.getFullYear();
+        }
+    }
+
+    private static resetHourMinuteSecondMillisecond = (date: Date): Date => {
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+        
+        return date;
+    }
 }

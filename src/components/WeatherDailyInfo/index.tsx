@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { DailyWeatherInfo } from '../../data/model/WeatherInfo/DailyWeatherInfo';
-import { DateUtilities } from '../../utils/utils';
+import { DateUtilities } from '../../utils/dateUtils';
 import './styles.scss';
 
 type WeatherDailyInfoProps = {

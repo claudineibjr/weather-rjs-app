@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import './styles.scss';
 import { useRouteMatch } from "react-router-dom";
 import DefaultAppBar from "../../components/DefaultAppBar";
-import { DateUtilities } from "../../utils/utils";
+import { DateUtilities } from "../../utils/dateUtils";
 import { LocationUtilities } from "../../utils/locationUtils";
 import UserLocation from "../../data/model/UserPreferences/UserLocation";
 import { useSelector, useDispatch } from "react-redux";

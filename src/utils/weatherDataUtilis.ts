@@ -3,6 +3,7 @@ import { DailyWeatherInfo } from "../data/model/WeatherInfo/DailyWeatherInfo";
 import { HourlyWeatherInfo } from "../data/model/WeatherInfo/HourlyWeatherInfo";
 
 import { load5Days3HoursForecastWeatherInfo, loadWeekWeatherInfo } from "../services/OpenWeatherMapApi";
+import { DateUtilities } from "./dateUtils";
 
 export class WeatherDataUtilities {
     static async fetchMyAPI(

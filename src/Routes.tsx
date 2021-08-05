@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import HourlyWeatherInfoPage from "./pages/HourlyWeatherInfo";
 import { store } from "./store";
-import { DateUtilities } from "./utils/utils";
+import { DateUtilities } from "./utils/dateUtils";
 
 export default function Routes() {
     return (
