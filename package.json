@@ -13,6 +13,8 @@
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
     "@types/react-redux": "^7.1.18",
+    "@visx/event": "^1.7.0",
+    "@visx/tooltip": "^1.17.1",
     "@vx/vx": "^0.0.199",
     "axios": "^0.21.1",
     "class-transformer": "^0.4.0",
