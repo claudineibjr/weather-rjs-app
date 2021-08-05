@@ -1,4 +1,4 @@
-import { OpenWeatherMapGeocodingResponse } from "../OpenWeatherResponse/OpenWeatherMapGeocodingResponse";
+// import { OpenWeatherMapGeocodingResponse } from "../OpenWeatherResponse/OpenWeatherMapGeocodingResponse";
 
 export default class UserLocation {
     latitude: number;
@@ -22,18 +22,18 @@ export default class UserLocation {
         return oldTraffordStadiumLocation;
     }
 
-    static userLocationFromResponse(openWeatherMapGeocodingResponse?: OpenWeatherMapGeocodingResponse): UserLocation {
-        if (openWeatherMapGeocodingResponse === undefined) {
-            throw new Error('Error on parsing');
-        }
+    // static userLocationFromResponse(openWeatherMapGeocodingResponse?: OpenWeatherMapGeocodingResponse): UserLocation {
+    //     if (openWeatherMapGeocodingResponse === undefined) {
+    //         throw new Error('Error on parsing');
+    //     }
 
-        const userLocation: UserLocation = new UserLocation(
-            openWeatherMapGeocodingResponse.lat,
-            openWeatherMapGeocodingResponse.lon
-        );
-        userLocation.name = openWeatherMapGeocodingResponse.name;
-        userLocation.country = openWeatherMapGeocodingResponse.country;
+    //     const userLocation: UserLocation = new UserLocation(
+    //         openWeatherMapGeocodingResponse.lat,
+    //         openWeatherMapGeocodingResponse.lon
+    //     );
+    //     userLocation.name = openWeatherMapGeocodingResponse.name;
+    //     userLocation.country = openWeatherMapGeocodingResponse.country;
 
-        return userLocation;
-    }
+    //     return userLocation;
+    // }
 }
