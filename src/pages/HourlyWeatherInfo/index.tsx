@@ -10,7 +10,6 @@ import { LocationUtilities } from "../../utils/locationUtils";
 import UserLocation from "../../data/model/UserPreferences/UserLocation";
 import { useSelector, useDispatch } from "react-redux";
 import { RootDispatcher } from "../../store/root-redux";
-import { load5Days3HoursForecastWeatherInfo } from "../../services/OpenWeatherMapApi";
 import { WeatherDataUtilities } from "../../utils/weatherDataUtilis";
 import { DailyWeatherInfo } from "../../data/model/WeatherInfo/DailyWeatherInfo";
 
@@ -85,6 +84,10 @@ export default function HourlyWeatherInfoPage() {
             <DefaultAppBar />
 
             <div className="HourlyWeatherInfoChart">
+                <div className="HourlyWeatherInfoChartHeader">
+                    {day().toDateString()}
+                </div>
+
                 {isLoadingDetailedData || isLoading ?
                     <CircularProgress />
                     : localHourlyWeatherInfos !== undefined &&
