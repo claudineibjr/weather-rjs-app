@@ -12,7 +12,7 @@ export default function Routes() {
                 <Switch>
                     <Route path={
                         [
-                            ...["/today", "/tomorrow", "/yesterday"],
+                            ...["/tomorrow"],
                             ...DateUtilities.days.map((day, _, __) => `/${day}`)
                         ]}
                         component={HourlyWeatherInfoPage}
