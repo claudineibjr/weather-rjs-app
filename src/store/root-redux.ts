@@ -1,11 +1,8 @@
 import { Dispatch } from "redux";
 import UserLocation from "../data/model/UserPreferences/UserLocation";
 import UserPreferences from "../data/model/UserPreferences/UserPreferences";
+import { DailyWeatherInfo } from "../data/model/WeatherInfo/DailyWeatherInfo";
 import { ActionType, DispatchAction } from "./root-reducer";
-
-export interface StateProps {
-    userPreferences: string;
-};
 
 export class RootDispatcher {
 
@@ -27,5 +24,12 @@ export class RootDispatcher {
         payload: {
             userLocation
         },
-    });    
+    });
+
+    updateWeekWeatherInfos = (weekWeatherInfos: Array<DailyWeatherInfo>) => this.dispatch({
+        type: ActionType.UpdateWeekWeatherInfos,
+        payload: {
+            weekWeatherInfos
+        },
+    });  
 }

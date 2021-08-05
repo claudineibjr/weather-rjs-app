@@ -1,15 +1,18 @@
 import { Action, Reducer } from "redux";
 import UserLocation from "../data/model/UserPreferences/UserLocation";
 import UserPreferences from "../data/model/UserPreferences/UserPreferences";
+import { DailyWeatherInfo } from "../data/model/WeatherInfo/DailyWeatherInfo";
 
 export interface StateInterface {
     userPreferences: UserPreferences | undefined;
     userLocation: UserLocation | undefined;
+    weekWeatherInfos: Array<DailyWeatherInfo> | undefined;
 }
 
 const initialState: StateInterface = {
     userPreferences: undefined,
     userLocation: undefined,
+    weekWeatherInfos: undefined,
 };
 
 export interface DispatchAction extends Action<ActionType> {
@@ -19,6 +22,7 @@ export interface DispatchAction extends Action<ActionType> {
 export enum ActionType {
     UpdateUserPreferences,
     UpdateUserLocation,
+    UpdateWeekWeatherInfos,
 }
 
 export const rootReducer: Reducer<StateInterface, DispatchAction> = (state = initialState, action) => {
@@ -42,6 +46,12 @@ export const rootReducer: Reducer<StateInterface, DispatchAction> = (state = ini
                 ...state,
                 userPreferences: action.payload.userPreferences,
                 userLocation: action.payload.userLocation,
+            };
+
+        case ActionType.UpdateWeekWeatherInfos:
+            return {
+                ...state,
+                weekWeatherInfos: action.payload.weekWeatherInfos,
             };
 
         default:
