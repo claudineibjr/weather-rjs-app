@@ -1,23 +1,11 @@
-import { useMemo, useCallback } from 'react';
 import { HourlyWeatherInfo } from '../../data/model/WeatherInfo/HourlyWeatherInfo';
-
-import { scaleTime, scaleLinear } from '@vx/scale';
-import { AxisLeft, AxisBottom } from '@vx/axis';
-import { Group } from '@vx/group';
-import { AreaClosed } from '@vx/shape';
-import { localPoint } from '@visx/event';
-import { LinearGradient } from '@vx/gradient';
-import { bisector, extent, max, min } from 'd3-array';
 import useWindowDimensions from '../../hook/useWindowDimensionsHook';
-import { withTooltip, Tooltip, TooltipWithBounds, defaultStyles } from '@visx/tooltip';
-import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip';
-import WeatherHourlyChartComponent from './WeatherHourlyChartComponent';
+import WeatherHourlyChartComponent, { ChartScale } from './WeatherHourlyChartComponent';
 
 type WeatherHourlyInfoProps = {
   weatherDailyInfo: Array<HourlyWeatherInfo>
+  chartScale: ChartScale
 }
-
-type TooltipData = HourlyWeatherInfo;
 
 export type AreaProps = {
   width: number;
@@ -26,7 +14,7 @@ export type AreaProps = {
 };
 
 
-export const WeatherHourlyChart = ({ weatherDailyInfo }: WeatherHourlyInfoProps) => {
+export const WeatherHourlyChart = ({ weatherDailyInfo, chartScale }: WeatherHourlyInfoProps) => {
   const { width } = useWindowDimensions();
 
   // Dimensions
@@ -46,6 +34,7 @@ export const WeatherHourlyChart = ({ weatherDailyInfo }: WeatherHourlyInfoProps)
       height={chartHeight}
       width={chartWidth}
       margin={margin}
+      chartScale={chartScale}
     />
   );
 }

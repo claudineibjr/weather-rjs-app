@@ -17,7 +17,13 @@ export type AreaProps = {
     height: number;
     margin?: { top: number; right: number; bottom: number; left: number };
     weatherDailyInfo: Array<HourlyWeatherInfo>;
+    chartScale: ChartScale;
 };
+
+export interface ChartScale {
+    min: number;
+    max: number;
+}
 
 export default withTooltip<AreaProps, TooltipData>(
     ({
@@ -30,6 +36,7 @@ export default withTooltip<AreaProps, TooltipData>(
         tooltipTop = 0,
         tooltipLeft = 0,
         weatherDailyInfo,
+        chartScale,
     }: AreaProps & WithTooltipProvidedProps<TooltipData>) => {
         // Bounds
         const innerWidth = width - margin.left - margin.right;
@@ -43,9 +50,8 @@ export default withTooltip<AreaProps, TooltipData>(
         const bisectDate = bisector<HourlyWeatherInfo, Date>(d => new Date(d.date)).left;
 
         // Scales
-        const yMean = (mean(weatherDailyInfo, getTemperatureValue) || 0);
-        const yMin = (min(weatherDailyInfo, getTemperatureValue) || 0) - yMean / 10;
-        const yMax = (max(weatherDailyInfo, getTemperatureValue) || 0) + yMean / 10;
+        const yMin = chartScale.min;
+        const yMax = chartScale.max;
 
         const xDateValues = useMemo(
             () =>
