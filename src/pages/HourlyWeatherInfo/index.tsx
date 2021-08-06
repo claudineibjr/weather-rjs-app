@@ -118,8 +118,12 @@ export default function HourlyWeatherInfoPage() {
                 </div>
 
                 {isLoadingDetailedData || isLoading ?
-                    <div className="HourlyWeatherInfoChartCircularProgress">
+                    <div className="HourlyWeatherInfoChartWarningAndLoading">
                         <CircularProgress />
+                    </div>
+                    : userLocation === undefined ?
+                    <div className="HourlyWeatherInfoChartWarningAndLoading">
+                        Location is unavailable
                     </div>
                     : localHourlyWeatherInfos !== undefined &&
                     <WeatherHourlyChart
