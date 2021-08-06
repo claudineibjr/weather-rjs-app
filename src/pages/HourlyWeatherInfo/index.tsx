@@ -91,13 +91,13 @@ export default function HourlyWeatherInfoPage() {
             <div className="HourlyWeatherInfoChart">
                 <div className="HourlyWeatherInfoChartHeader">
                     <div className="HourlyWeatherInfoChartHeaderText">
-                        {dateAccordingToCurrentWeekDayName && 
+                        {dateAccordingToCurrentWeekDayName &&
                             dateAccordingToCurrentWeekDayName!.toDateString()
                         }
                     </div>
 
                     {weekWeatherInfos && dateAccordingToCurrentWeekDayName &&
-                        <ButtonGroup className="HourlyWeatherInfoChartHeaderTextButtonGroup">                           
+                        <ButtonGroup className="HourlyWeatherInfoChartHeaderTextButtonGroup">
                             {weekWeatherInfos.map((dayWeatherInfo) => {
                                 const weekDay = DateUtilities.days[dayWeatherInfo.date.getDay()];
 
@@ -122,13 +122,17 @@ export default function HourlyWeatherInfoPage() {
                         <CircularProgress />
                     </div>
                     : userLocation === undefined ?
-                    <div className="HourlyWeatherInfoChartWarningAndLoading">
-                        Location is unavailable
-                    </div>
-                    : localHourlyWeatherInfos !== undefined &&
-                    <WeatherHourlyChart
-                        key={localHourlyWeatherInfos[0].date.toString()}
-                        weatherDailyInfo={localHourlyWeatherInfos} />
+                        <div className="HourlyWeatherInfoChartWarningAndLoading">
+                            Location is unavailable
+                        </div>
+                        : localHourlyWeatherInfos !== undefined && localHourlyWeatherInfos.length > 0 ?
+                            <WeatherHourlyChart
+                                key={localHourlyWeatherInfos[0].date.toString()}
+                                weatherDailyInfo={localHourlyWeatherInfos} />
+                            :
+                            <div className="HourlyWeatherInfoChartWarningAndLoading">
+                                Data is unavailable
+                            </div>
                 }
             </div>
         </div>

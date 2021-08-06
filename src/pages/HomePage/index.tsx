@@ -75,12 +75,12 @@ export function HomePage() {
                         <CircularProgress />
                     </div>
                     : weekWeatherInfos !== undefined ?
-                    weekWeatherInfos.map((dayWeatherInfo, _) =>
-                        <WeatherDailyInfo weatherDailyInfo={dayWeatherInfo} />
-                    ) :
-                    <div className="WeekWeatherInfoWarningAndLoading">
-                        Location is unavailable
-                    </div>
+                        weekWeatherInfos.map((dayWeatherInfo, _) =>
+                            <WeatherDailyInfo weatherDailyInfo={dayWeatherInfo} />
+                        ) :
+                        <div className="WeekWeatherInfoWarningAndLoading">
+                            Location is unavailable
+                        </div>
                 }
             </div>
         </div>
