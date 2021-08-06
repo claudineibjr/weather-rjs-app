@@ -24,6 +24,7 @@ interface StateInterfaceProps {
 export default function HourlyWeatherInfoPage() {
     const [localHourlyWeatherInfos, setLocalHourlyWeatherInfos] = useState<Array<HourlyWeatherInfo> | undefined>(undefined);
     const [isLoading, setLoading] = useState<boolean>(false);
+    const [dateAccordingToCurrentWeekDayName, setDateAccordingToCurrentWeekDayName] = useState<Date | undefined>(undefined);
 
     const history = useHistory();
 
@@ -39,8 +40,6 @@ export default function HourlyWeatherInfoPage() {
     const rootDispatcher = new RootDispatcher(useDispatch());
 
     const { path } = useRouteMatch();
-
-    const day = (): Date => DateUtilities.getDateAccordingToCurrentWeekDayName(path);
 
     useEffect(() => {
         async function loadData() {
@@ -60,13 +59,16 @@ export default function HourlyWeatherInfoPage() {
     }, [userLocation]);
 
     useEffect(() => {
-        if (hourlyWeatherInfos !== undefined) {
-            const date: number = day().getDate();
+        const dateAccordingToCurrentWeekDayName = DateUtilities.getDateAccordingToCurrentWeekDayName(path);
+        setDateAccordingToCurrentWeekDayName(dateAccordingToCurrentWeekDayName);
+
+        if (hourlyWeatherInfos !== undefined && dateAccordingToCurrentWeekDayName !== undefined) {
+            const date: number = dateAccordingToCurrentWeekDayName.getDate();
             const localHourlyWeatherInfos = hourlyWeatherInfos.filter((hourly) => hourly.date.getDate() === date);
 
             setLocalHourlyWeatherInfos(localHourlyWeatherInfos);
         }
-    }, [hourlyWeatherInfos]);
+    }, [hourlyWeatherInfos, path]);
 
     useEffect(() => {
         async function loadData() {
@@ -89,21 +91,22 @@ export default function HourlyWeatherInfoPage() {
             <div className="HourlyWeatherInfoChart">
                 <div className="HourlyWeatherInfoChartHeader">
                     <div className="HourlyWeatherInfoChartHeaderText">
-                        {day().toDateString()}
+                        {dateAccordingToCurrentWeekDayName && 
+                            dateAccordingToCurrentWeekDayName!.toDateString()
+                        }
                     </div>
 
-                    {weekWeatherInfos &&
+                    {weekWeatherInfos && dateAccordingToCurrentWeekDayName &&
                         <ButtonGroup className="HourlyWeatherInfoChartHeaderTextButtonGroup">                           
                             {weekWeatherInfos.map((dayWeatherInfo) => {
                                 const weekDay = DateUtilities.days[dayWeatherInfo.date.getDay()];
 
-                                const isSelected = day().getDay() === dayWeatherInfo.date.getDay();
+                                const isSelected = dateAccordingToCurrentWeekDayName!.getDay() === dayWeatherInfo.date.getDay();
 
                                 return (
                                     <Button
                                         onClick={() => {
                                             history.push(`/${weekDay}`);
-                                            history.go(0);
                                         }}
                                         className={isSelected ? 'HourlyWeatherInfoChartHeaderTextButtonSelected' : ''}>
                                         {weekDay}
@@ -120,6 +123,7 @@ export default function HourlyWeatherInfoPage() {
                     </div>
                     : localHourlyWeatherInfos !== undefined &&
                     <WeatherHourlyChart
+                        key={localHourlyWeatherInfos[0].date.toString()}
                         weatherDailyInfo={localHourlyWeatherInfos} />
                 }
             </div>
