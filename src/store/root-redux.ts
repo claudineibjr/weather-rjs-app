@@ -1,6 +1,5 @@
 import { Dispatch } from "redux";
 import UserLocation from "../data/model/UserPreferences/UserLocation";
-import UserPreferences from "../data/model/UserPreferences/UserPreferences";
 import { DailyWeatherInfo } from "../data/model/WeatherInfo/DailyWeatherInfo";
 import { HourlyWeatherInfo } from "../data/model/WeatherInfo/HourlyWeatherInfo";
 import { ActionType, DispatchAction } from "./root-reducer";
@@ -13,13 +12,6 @@ export class RootDispatcher {
         this.dispatch = dispatch;
     }
 
-    updateUserPreferences = (userPreferences: UserPreferences) => this.dispatch({
-        type: ActionType.UpdateUserPreferences,
-        payload: {
-            userPreferences
-        },
-    });
-    
     updateUserLocation = (userLocation: UserLocation) => this.dispatch({
         type: ActionType.UpdateUserLocation,
         payload: {
